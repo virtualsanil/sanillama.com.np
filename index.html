@@ -1,304 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Anil Lama Portfolio - Founder of Nepali Typing Center, L1 Lead at Fonepay, and Digital Payment Enthusiast." />
-  <meta name="author" content="Anil Lama" />
-  <title>Anil Lama | Portfolio</title>
-  
-  <!-- Font Awesome for Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <style>
-    /* ---------- Reset ---------- */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Poppins", sans-serif;
-      background-color: #f4f6f8;
-      color: #333;
-      line-height: 1.6;
-      scroll-behavior: smooth;
-    }
-    a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
-    a:hover { color: #1565c0; }
-
-    /* ---------- Header ---------- */
-    header {
-      background-color: #0d47a1;
-      color: #fff;
-      padding: 30px 20px;
-      text-align: center;
-    }
-    header img {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      border: 4px solid #fff;
-      object-fit: cover;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    header img:hover { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-    header h1 { font-size: 2.2rem; margin-bottom: 8px; }
-    header h2 { font-weight: 400; font-size: 1.1rem; margin-bottom: 15px; }
-
-    /* ---------- Social Links ---------- */
-    .social-nav { margin-top: 10px; }
-    .social-nav a { margin: 0 8px; font-size: 1.3rem; color: #fff; transition: color 0.3s ease; }
-    .social-nav a:hover { color: #ffca28; }
-
-    /* ---------- Sections ---------- */
-    section {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 25px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    section:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
-    section h2 {
-      color: #0d47a1;
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      border-bottom: 3px solid #ffca28;
-      display: inline-block;
-      padding-bottom: 5px;
-    }
-
-    /* ---------- Cards ---------- */
-    .card {
-      background: #fafafa;
-      padding: 18px;
-      border-radius: 8px;
-      margin-top: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
-    }
-    .card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.15); transform: translateY(-3px); }
-
-    /* ---------- Certificates ---------- */
-    .certificate-img {
-      width: 80%;
-      max-width: 350px;
-      display: block;
-      margin: 12px auto;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-    }
-
-    /* ---------- Buttons ---------- */
-    .btn {
-      display: inline-block;
-      padding: 8px 18px;
-      background-color: #0d47a1;
-      color: #fff;
-      border-radius: 25px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-top: 10px;
-      text-align: center;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
-    }
-    .btn:hover {
-      background-color: #1565c0;
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 5px 12px rgba(0,0,0,0.25);
-    }
-
-    /* ---------- Footer ---------- */
-    footer {
-      background-color: #0d47a1;
-      color: #fff;
-      padding: 20px 15px;
-      text-align: center;
-      margin-top: 50px;
-      box-shadow: 0 -2px 8px rgba(0,0,0,0.15);
-    }
-    .footer-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 25px;
-      margin-bottom: 10px;
-    }
-    .footer-container a {
-      color: #fff;
-      font-size: 0.95rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      position: relative;
-      padding: 5px 8px;
-      transition: all 0.3s ease-in-out;
-    }
-    .footer-container a i { color: #ffca28; transition: transform 0.3s ease; }
-    .footer-container a:hover { color: #ffca28; }
-    .footer-container a:hover i { transform: rotate(15deg) scale(1.2); }
-    .footer-container a::after {
-      content: "";
-      position: absolute;
-      width: 0%;
-      height: 2px;
-      bottom: -3px;
-      left: 0;
-      background-color: #ffca28;
-      transition: width 0.3s ease-in-out;
-    }
-    .footer-container a:hover::after { width: 100%; }
-    footer p { font-size: 0.85rem; color: #ccc; margin-top: 8px; }
-
-    /* ---------- Responsive ---------- */
-    @media (max-width: 768px) {
-      header img { width: 100px; height: 100px; }
-      .footer-container { flex-direction: column; gap: 12px; }
-    }
-  </style>
-
-  <!-- Scroll to top on refresh -->
-  <script>
-    window.addEventListener("load", () => {
-      // Scroll to top
-      window.scrollTo(0, 0);
-
-      // Remove hash if any
-      if (window.location.hash) {
-        history.replaceState(null, null, window.location.pathname);
-      }
-    });
-  </script>
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kinchha Bazzar | Women's Fashion Store</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+        body { background-color: #f7f7f7; color: #333; }
+        header { background: #111; color: #fff; padding: 20px 0; }
+        .container { width: 90%; max-width: 1200px; margin: auto; }
+        header h1 { text-align: center; font-size: 36px; letter-spacing: 1px; }
+        header p { text-align: center; margin-top: 5px; font-size: 14px; color: #ccc; }
+        nav { background: #222; }
+        nav ul { display: flex; justify-content: center; list-style: none; }
+        nav ul li { margin: 15px; }
+        nav ul li a { color: #fff; text-decoration: none; font-weight: bold; }
+        nav ul li a:hover { color: #f0c040; }
+        .hero { background: url('https://images.unsplash.com/photo-1521334884684-d80222895322') center/cover no-repeat; height: 400px; display: flex; align-items: center; }
+        .hero-content { background: rgba(0,0,0,0.6); padding: 40px; color: #fff; max-width: 600px; }
+        .hero h2 { font-size: 32px; margin-bottom: 10px; }
+        .hero p { font-size: 16px; }
+        section { padding: 60px 0; }
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title h2 { font-size: 32px; margin-bottom: 10px; }
+        .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+        .product { background: #fff; padding: 20px; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); text-align: center; }
+        .product img { width: 100%; height: 220px; object-fit: cover; border-radius: 5px; }
+        .product h3 { margin: 15px 0 8px; }
+        .product p { font-size: 14px; color: #666; }
+        .about, .contact { background: #fff; }
+        .about p { max-width: 800px; margin: auto; text-align: center; font-size: 16px; line-height: 1.6; }
+        .contact-info { text-align: center; font-size: 16px; }
+        footer { background: #111; color: #ccc; text-align: center; padding: 20px 0; margin-top: 40px; }
+        footer p { font-size: 14px; }
+    </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <img src="Amal.jpg" alt="Anil Lama" />
-    <h1>ANIL LAMA (अनिल लामा)</h1>
-    <h2>Founder | Nepali Typing Center | L1 Lead at Fonepay</h2>
+<header>
+    <div class="container">
+        <h1>Kinchha Bazzar</h1>
+        <p>Women's Clothing • Shoes • Accessories • Slippers</p>
+    </div>
+</header>
 
-    <div class="social-nav">
-      <a href="https://www.youtube.com/@anillama9033" target="_blank"><i class="fab fa-youtube"></i></a>
-      <a href="https://www.facebook.com/profile.php?id=100005158245674" target="_blank"><i class="fab fa-facebook"></i></a>
-      <a href="https://www.linkedin.com/in/anil-l-3b0a23236/" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://www.instagram.com/anil.lama__" target="_blank"><i class="fab fa-instagram"></i></a>
-    </div>
+<nav>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
 
-    <div class="footer-container">
-      <a href="#about"><i class="fas fa-user"></i> About</a>
-      <a href="#awards"><i class="fas fa-award"></i> Awards</a>
-      <a href="#education"><i class="fas fa-graduation-cap"></i> Education</a>
-      <a href="#training"><i class="fas fa-certificate"></i> Certifications</a>
-      <a href="#experience"><i class="fas fa-briefcase"></i> Experience</a>
-      <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
-      <a href="#typing"><i class="fas fa-keyboard"></i> Typing Tool</a>
+<section class="hero" id="home">
+    <div class="container">
+        <div class="hero-content">
+            <h2>Fashion for Every Woman</h2>
+            <p>Discover trendy and affordable women’s fashion at Kinchha Bazzar. Based in Kathmandu, Nepal.</p>
+        </div>
     </div>
-  </header>
+</section>
 
-  <!-- About Section -->
-  <section id="about">
-    <h2>About Me</h2>
-    <p>Welcome to my portfolio! I am <strong>Anil Lama</strong>, as an L1 Lead at Fonepay, dedicated to driving efficiency and innovation in the digital payment sector. With a strong work ethic and a passion for technology, I thrive in fast-paced environments, ensuring seamless operations and delivering impactful solutions.</p>
-    <p>I enjoy solving challenges, improving processes, and continuously enhancing digital experiences.</p>
-  </section>
+<section id="products">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Product Categories</h2>
+        </div>
+        <div class="products">
+            <div class="product">
+                <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f" alt="Women's Clothing">
+                <h3>Women's Clothing</h3>
+                <p>Stylish dresses, tops, and everyday wear.</p>
+            </div>
+            <div class="product">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff" alt="Shoes">
+                <h3>Shoes</h3>
+                <p>Comfortable and fashionable footwear.</p>
+            </div>
+            <div class="product">
+                <img src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3" alt="Accessories">
+                <h3>Accessories</h3>
+                <p>Bags, jewelry, and fashion essentials.</p>
+            </div>
+            <div class="product">
+                <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30" alt="Slippers">
+                <h3>Slippers</h3>
+                <p>Casual and comfortable slippers for women.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-  <!-- Awards Section -->
-  <section id="awards">
-    <h2>Awards & Achievements</h2>
-    <div class="card">
-      <h3>Quarterly Impact Award - 2024</h3>
-      <p>I am honored to have received the Quarterly Impact Award, recognizing my dedication and contributions at Fonepay.</p>
-      <a href="https://www.linkedin.com/posts/fonepaynepal_hardwork-dedication-impact-activity-7339135682180800513-Jhej/" target="_blank" class="btn">View Achievement</a>
+<section class="about" id="about">
+    <div class="container">
+        <div class="section-title">
+            <h2>About Kinchha Bazzar</h2>
+        </div>
+        <p>
+            Kinchha Bazzar is an online fashion store based in Kathmandu, Nepal. We focus on providing quality women’s clothing, shoes, accessories, and slippers at affordable prices. Our goal is to bring modern fashion closer to every woman.
+        </p>
     </div>
+</section>
 
-    <div class="card">
-      <h3>Nepali Typing Center</h3>
-      <p>I successfully launched and manage the Nepali Typing Center, which is now running smoothly on Google Marketplace.</p>
-      <a href="https://g.co/kgs/sqaEEzb" target="_blank" class="btn">Check It Out</a>
+<section class="contact" id="contact">
+    <div class="container">
+        <div class="section-title">
+            <h2>Contact Us</h2>
+        </div>
+        <div class="contact-info">
+            <p><strong>Location:</strong> Kathmandu, Nepal</p>
+            <p><strong>Phone:</strong> +977 9851359109</p>
+        </div>
     </div>
-  </section>
+</section>
 
-  <!-- Education Section -->
-  <section id="education">
-    <h2>Education</h2>
-    <div class="card">
-      <h3>Bachelor in Social Work (BSW)</h3>
-      <p>Tribhuvan University | 2020 – 2025 (Expected)</p>
-    </div>
-    <div class="card">
-      <h3>Higher Secondary (12th Grade)</h3>
-      <p>Unique College | 2018 – 2020</p>
-    </div>
-  </section>
-
-  <!-- Training Section -->
-  <section id="training">
-    <h2>Training & Certifications</h2>
-    <div class="card">
-      <h3>Microsoft Excel 101</h3>
-      <p>Satyava Digital Class – 2023</p>
-      <img src="excel.png" alt="Microsoft Excel Certificate" class="certificate-img" />
-    </div>
-    <div class="card">
-      <h3>Google Analytics Certification</h3>
-      <p>Issued by Google Skillshop</p>
-      <img src="Google Analytics.png" alt="Google Analytics Certificate" class="certificate-img" />
-    </div>
-    <div class="card">
-      <h3>Photoshop & Editing (Basic)</h3>
-      <p>I have learned Photoshop and image editing through self-study on YouTube, enabling me to create visually appealing graphics, edit images, and enhance digital content.</p>
-    </div>
-  </section>
-
-  <!-- Experience Section -->
-  <section id="experience">
-    <h2>Experience</h2>
-    <div class="card">
-      <h3>Manish Enterprises | Accountant & Marketing Manager</h3>
-      <p>2018 – 2022</p>
-      <p>Managed accounting operations and marketing initiatives for four years. Responsible for building customer relationships, providing top-notch services, and contributing to technical aspects of DIY product development.</p>
-    </div>
-    <div class="card">
-      <h3>Roshi Handicraft | Manager</h3>
-      <p>2022</p>
-      <p>Oversaw multiple projects, organized training for women empowerment initiatives, and enhanced personal and professional skills.</p>
-    </div>
-    <div class="card">
-      <h3>Fonepay | L1 Lead</h3>
-      <p>2022 – Present</p>
-      <p>Key role in ensuring seamless digital payment operations, optimizing processes, and contributing to company growth through innovation and efficiency.</p>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact">
-    <h2>Contact</h2>
-    <div class="card">
-      <p><strong>Email:</strong> <a href="mailto:lanil9033@gmail.com">lanil9033@gmail.com</a></p>
-      <p><strong>Phone:</strong> <a href="tel:+9865585569">+977 9865585569</a></p>
-    </div>
-  </section>
-
-  <!-- Nepali Typing Tool Section -->
-  <section id="typing">
-    <h2>Nepali Typing Converter</h2>
-    <iframe src="https://www.ashesh.com.np/linknepali-unicode3.php?api=492041p542"
-            width="100%" height="360" frameborder="0" scrolling="no"
-            style="border-radius: 8px;"></iframe>
-    <p style="font-size: 12px; text-align: center; margin-top: 8px; color: #888;">© Nepali Unicode</p>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Anil Lama | All Rights Reserved.</p>
-  </footer>
+<footer>
+    <p>© 2025 Kinchha Bazzar. All Rights Reserved.</p>
+</footer>
 
 </body>
 </html>
