@@ -1,1156 +1,238 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knowledge Hub | Anillama - Tech Tutorials & Automation</title>
-    <meta name="description" content="Explore practical articles on web development, digital skills, Nepali typing practice, and AI automation by Anil Lama.">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        /* ==========================================================================
-           1. CSS Variables & Theme Configuration
-           ========================================================================== */
-        :root {
-            --bg-main: #0b0f19;
-            --bg-card: rgba(21, 29, 46, 0.75);
-            --bg-card-hover: rgba(30, 41, 64, 0.85);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --primary-light: rgba(99, 102, 241, 0.15);
-            --accent: #10b981;
-            --accent-light: rgba(16, 185, 129, 0.15);
-            --shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.5);
-            --radius-lg: 20px;
-            --radius-md: 12px;
-            --font-heading: 'Space Grotesk', sans-serif;
-            --font-body: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        [data-theme="light"] {
-            --bg-main: #f8fafc;
-            --bg-card: rgba(255, 255, 255, 0.9);
-            --bg-card-hover: #ffffff;
-            --border-color: rgba(0, 0, 0, 0.08);
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --primary-light: rgba(79, 70, 229, 0.1);
-            --accent: #059669;
-            --accent-light: rgba(5, 150, 105, 0.1);
-            --shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.06);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            font-family: var(--font-body);
-            min-height: 100vh;
-            line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Ambient Glow Backgrounds */
-        .ambient-glow {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 1200px;
-            height: 500px;
-            background: radial-gradient(circle at 50% 0%, var(--primary-light) 0%, transparent 70%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .container {
-            max-width: 1240px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* ==========================================================================
-           2. Header Navigation
-           ========================================================================== */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(11, 15, 25, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        [data-theme="light"] header {
-            background: rgba(248, 250, 252, 0.8);
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 76px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            background: var(--primary);
-            color: #ffffff;
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 24px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--primary);
-        }
-
-        .theme-toggle {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            box-shadow: var(--shadow);
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.08);
-            border-color: var(--primary);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 1.4rem;
-            cursor: pointer;
-        }
-
-        /* ==========================================================================
-           3. Hero Section & Live Search
-           ========================================================================== */
-        .hero {
-            padding: 60px 0 40px;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .hero h1 {
-            font-family: var(--font-heading);
-            font-size: 2.8rem;
-            line-height: 1.25;
-            margin-bottom: 16px;
-        }
-
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 32px;
-        }
-
-        .search-wrapper {
-            position: relative;
-            max-width: 640px;
-            margin: 0 auto;
-        }
-
-        .search-wrapper i.search-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 18px 50px 18px 54px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            color: var(--text-primary);
-            font-size: 1rem;
-            outline: none;
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(10px);
-        }
-
-        .search-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px var(--primary-light);
-        }
-
-        .clear-search-btn {
-            position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 1rem;
-            display: none;
-        }
-
-        /* ==========================================================================
-           4. Featured Hero Article
-           ========================================================================== */
-        .featured-wrapper {
-            margin: 30px 0 50px;
-        }
-
-        .featured-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 36px;
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 32px;
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(10px);
-            align-items: center;
-        }
-
-        .featured-card:hover {
-            border-color: rgba(99, 102, 241, 0.4);
-        }
-
-        .featured-tag {
-            background: #ef4444;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 800;
-            padding: 4px 12px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            display: inline-block;
-            margin-bottom: 12px;
-        }
-
-        .featured-content h2 {
-            font-family: var(--font-heading);
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-            line-height: 1.3;
-        }
-
-        .featured-content p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            font-size: 0.98rem;
-        }
-
-        .meta-info {
-            display: flex;
-            gap: 16px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-        }
-
-        .featured-visual {
-            background: linear-gradient(135deg, var(--primary), #8b5cf6);
-            border-radius: var(--radius-md);
-            height: 100%;
-            min-height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: white;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.15);
-        }
-
-        .btn-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--primary);
-            font-weight: 700;
-            text-decoration: none;
-            font-size: 0.95rem;
-        }
-
-        .btn-link:hover {
-            gap: 12px;
-        }
-
-        /* ==========================================================================
-           5. Nepali Interactive Typing Banner Box
-           ========================================================================== */
-        .typing-tool-banner {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            margin-bottom: 50px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .typing-tool-banner::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 6px;
-            background: var(--primary);
-        }
-
-        .typing-info h3 {
-            font-family: var(--font-heading);
-            font-size: 1.6rem;
-            margin-bottom: 10px;
-        }
-
-        .typing-info p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--primary);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-        }
-
-        .interactive-typing-box {
-            background: var(--bg-main);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 16px;
-        }
-
-        .typing-box-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .typing-textarea {
-            width: 100%;
-            height: 90px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px;
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            outline: none;
-            resize: none;
-            font-family: var(--font-body);
-        }
-
-        .typing-textarea:focus {
-            border-color: var(--primary);
-        }
-
-        /* ==========================================================================
-           6. Control Bar (Categories & Sort)
-           ========================================================================== */
-        .controls-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-
-        .category-pills {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .pill {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 8px 16px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .pill:hover, .pill.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .sort-select-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 8px 14px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .sort-select-box select {
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            font-size: 0.85rem;
-            font-weight: 600;
-            outline: none;
-            cursor: pointer;
-        }
-
-        /* ==========================================================================
-           7. Blog Grid Layout
-           ========================================================================== */
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 24px;
-            margin-bottom: 60px;
-        }
-
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(10px);
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-6px);
-            border-color: var(--primary);
-            background: var(--bg-card-hover);
-        }
-
-        .card-header-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .card-tag {
-            background: var(--primary-light);
-            color: var(--primary);
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 6px;
-            text-transform: uppercase;
-        }
-
-        .new-badge {
-            background: var(--accent-light);
-            color: var(--accent);
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 6px;
-        }
-
-        .card-actions button {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 1rem;
-            margin-left: 8px;
-        }
-
-        .card-actions button:hover {
-            color: var(--primary);
-        }
-
-        .card-title {
-            font-family: var(--font-heading);
-            font-size: 1.25rem;
-            line-height: 1.4;
-            margin-bottom: 10px;
-        }
-
-        .card-title a {
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-
-        .card-title a:hover {
-            color: var(--primary);
-        }
-
-        .card-text {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }
-
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 14px;
-            border-top: 1px solid var(--border-color);
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* ==========================================================================
-           8. Author & Footer Section
-           ========================================================================== */
-        .author-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            text-align: center;
-            margin-bottom: 60px;
-            box-shadow: var(--shadow);
-        }
-
-        .author-card h3 {
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-        }
-
-        .author-card p {
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 20px;
-        }
-
-        footer {
-            border-top: 1px solid var(--border-color);
-            padding: 40px 0;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            list-style: none;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-
-        .social-links a {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            text-decoration: none;
-        }
-
-        .social-links a:hover {
-            color: var(--primary);
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: var(--primary);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            box-shadow: var(--shadow);
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        /* Responsive Breakpoints */
-        @media (max-width: 868px) {
-            .featured-card, .typing-tool-banner {
-                grid-template-columns: 1fr;
-            }
-            .hero h1 {
-                font-size: 2.1rem;
-            }
-            .nav-links {
-                display: none;
-            }
-            .mobile-menu-btn {
-                display: block;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="author" content="Anil Lama" />
+  <meta name="google-adsense-account" content="ca-pub-7335396742183776">
+  <meta name="description" content="Anil Lama (अनिल लामा) - Personal portfolio website showing my projects, experience, awards, skills, Nepali Typing Center, and professional profile from Nepal.">
+  <title>Anil Lama (अनिल लामा) - Portfolio | Web Professional from Nepal</title>
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-N50CL3ZTT5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-N50CL3ZTT5');
+  </script>
+
+  <!-- SEO -->
+  <meta name="keywords" content="Nepali typing, Unicode typing, typing service Nepal, PDF to Word Nepal, thesis typing Nepal, government form typing, PDF to Word, typing Near Me, Nepali typing center, Portfolio, english to nepali">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://anillama.com.np/">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <div class="ambient-glow"></div>
+  <!-- Massive Animated Dragon Background -->
+  <div id="dragon-bg">
+    <div class="dragon-visual"></div>
+  </div>
 
-    <!-- Header Navigation -->
-    <header>
-        <div class="container nav-container">
-            <a href="/" class="logo">
-                <div class="logo-icon"><i class="fa-solid fa-code"></i></div>
-                <span>Anillama</span>
-            </a>
-            
-            <div class="nav-right">
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="/" class="active"><i class="fa-solid fa-house"></i> Home</a></li>
-                    <li><a href="#blogs"><i class="fa-solid fa-newspaper"></i> Articles</a></li>
-                    <li><a href="#typing-tool"><i class="fa-solid fa-keyboard"></i> Typing Tool</a></li>
-                    <li><a href="#about"><i class="fa-solid fa-user"></i> About</a></li>
-                    <li><a href="/contact.html"><i class="fa-solid fa-envelope"></i> Contact</a></li>
-                </ul>
-                
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
-                    <i class="fa-solid fa-moon"></i>
-                </button>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="profile-wrapper">
+        <div class="profile-ring"></div>
+        <img src="assets/img/Amal.jpg" alt="Anil Lama" class="profile-img" />
+      </div>
+      <h1 class="name-title">ANIL LAMA</h1>
+      <p class="name-nepali">अनिल लामा</p>
+      <h2 class="tagline">Founder | Nepali Typing Center | Lead-L1 and Digital Support</h2>
 
-                <button class="mobile-menu-btn" id="menuBtn">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-            </div>
+      <div class="social-nav">
+        <a href="https://www.youtube.com/@anillama9033" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=100005158245674" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.linkedin.com/in/anil-l-3b0a23236/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://www.instagram.com/anil.lama__/#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+
+    <nav class="main-nav">
+      <a href="#about" class="nav-link"><i class="fas fa-user"></i> <span>About</span></a>
+      <a href="#awards" class="nav-link"><i class="fas fa-award"></i> <span>Awards</span></a>
+      <a href="#education" class="nav-link"><i class="fas fa-graduation-cap"></i> <span>Education</span></a>
+      <a href="#training" class="nav-link"><i class="fas fa-certificate"></i> <span>Certifications</span></a>
+      <a href="#experience" class="nav-link"><i class="fas fa-briefcase"></i> <span>Experience</span></a>
+      <a href="#contact" class="nav-link"><i class="fas fa-envelope"></i> <span>Contact</span></a>
+      <a href="#typing" class="nav-link"><i class="fas fa-keyboard"></i> <span>Typing Tool</span></a>
+      <a href="Pages/privacy-policy" target="_blank" class="nav-link"><i class="fas fa-user-shield"></i> <span>Privacy Policy</span></a>
+      <a href="Pages/terms-and-conditions" target="_blank" class="nav-link"><i class="fas fa-file-contract"></i> <span>T&amp;C</span></a>
+      <a href="Pages/disclaimer" target="_blank" class="nav-link"><i class="fas fa-triangle-exclamation"></i> <span>Disclaimer</span></a>
+      <a href="Blogs/blogs" target="_blank" class="nav-link"><i class="fas fa-blog"></i> <span>Blogs</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- About Section -->
+    <section id="about" class="reveal-section">
+      <div class="section-header">
+        <h2>About Me</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="card glass-card">
+        <p>Welcome to my professional portfolio! I am <strong>Anil Lama</strong>, as an Lead-L1 and Digital Support at Fonepay, dedicated to driving efficiency and innovation in the digital payment sector. With a strong work ethic and a passion for technology, I thrive in fast-paced environments, ensuring seamless operations and delivering impactful solutions.</p>
+        <p>I enjoy solving challenges, improving processes, and continuously enhancing digital experiences.</p>
+      </div>
+    </section>
+
+    <!-- Awards Section -->
+    <section id="awards" class="reveal-section">
+      <div class="section-header">
+        <h2>Awards & Achievements</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="card glass-card">
+        <div class="card-icon"><i class="fas fa-trophy"></i></div>
+        <h3>Quarterly Impact Award - 2024</h3>
+        <p>I am honored to have received the Quarterly Impact Award, recognizing my dedication and contributions at Fonepay.</p>
+        <a href="https://www.linkedin.com/posts/fonepaynepal_hardwork-dedication-impact-activity-7339135682180800513-Jhej/" target="_blank" class="btn">View Achievement</a>
+      </div>
+
+      <div class="card glass-card">
+        <div class="card-icon"><i class="fas fa-keyboard"></i></div>
+        <h3>Nepali Typing Center</h3>
+        <p>I successfully launched and manage the Nepali Typing Center, which is now running smoothly on Google Marketplace.</p>
+        <a href="https://g.co/kgs/sqaEEzb" target="_blank" class="btn">Check It Out</a>
+      </div>
+    </section>
+
+    <!-- Education Section (DOT REMOVED) -->
+    <section id="education" class="reveal-section">
+      <div class="section-header">
+        <h2>Education</h2>
+        <div class="section-line"></div>
+      </div>
+      <!-- Card 1 -->
+      <div class="card glass-card">
+        <h3>Bachelor in Social Work (BSW)</h3>
+        <p class="timeline-date">Tribhuvan University | 2020 – 2026 (Expected)</p>
+      </div>
+      <!-- Card 2 -->
+      <div class="card glass-card">
+        <h3>Higher Secondary (+2)</h3>
+        <p class="timeline-date">Unique College | 2018 – 2020</p>
+      </div>
+    </section>
+
+    <!-- Training Section -->
+    <section id="training" class="reveal-section">
+      <div class="section-header">
+        <h2>Training & Certifications</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="card glass-card certification-card">
+        <h3>Microsoft Excel 101</h3>
+        <p>Satyava Digital Class – 2023</p>
+        <img src="assets/img/excel.png" alt="Microsoft Excel Certificate" class="certificate-img" />
+      </div>
+      <div class="card glass-card certification-card">
+        <h3>Google Analytics Certification</h3>
+        <p>Issued by Google Skillshop</p>
+        <img src="assets/img/Google Analytics.png" alt="Google Analytics Certificate" class="certificate-img" />
+      </div>
+      <div class="card glass-card certification-card">
+        <h3>Photoshop, Design & Editing (Basic)</h3>
+        <p>I have learned Photoshop and image editing through self-study on YouTube, enabling me to create visually appealing graphics, edit images, and enhance digital content.</p>
+        <img src="assets/img/NT.jpg" alt="Photoshop, Design & Editing" class="certificate-img" />
+      </div>
+      <div class="card glass-card certification-card">
+        <h3>CCEP (Certified Cybersecurity Educator Professional)</h3>
+        <p>I'm thrilled to share that I've successfully passed the CCEP Exam! This milestone reflects my dedication to advancing my knowledge in cybersecurity. A huge thank you to everyone for who supported me along the way – the journey of continuous learning is always better with a great network. I'm excited to apply these insights to real-world security challenges and contribute to building safer, more resilient systems.</p>
+        <img src="assets/img/CCEP.jpg" alt="CCEP Certificate" class="certificate-img" />
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="reveal-section">
+      <div class="section-header">
+        <h2>Experience</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="card glass-card experience-card">
+        <div class="experience-header">
+          <span class="experience-year">2018 – 2022</span>
         </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container">
-        
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-badge">
-                <i class="fa-solid fa-bolt"></i> Tech Tutorials & Digital Automation
-            </div>
-            <h1>Empower Your Digital Skills with Anillama</h1>
-            <p>Master Nepali typing, explore AI workflow automation, and level up your software engineering workflows.</p>
-            
-            <!-- Live Search Bar -->
-            <div class="search-wrapper">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" id="searchInput" class="search-input" placeholder="Search guides, tools, or topics (e.g., n8n, typing, unicode, AI)...">
-                <button class="clear-search-btn" id="clearSearch"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-        </section>
-
-        <!-- Featured Article Banner Container -->
-        <div class="featured-wrapper" id="featuredContainer"></div>
-
-        <!-- Interactive Nepali Typing Showcase -->
-        <section class="typing-tool-banner" id="typing-tool">
-            <div class="typing-info">
-                <h3>Practice Nepali Typing Online</h3>
-                <p>Enhance your typing speed and accuracy in both English and Nepali Unicode layouts with interactive modules.</p>
-                <a href="/nepali-typing" class="btn-primary">
-                    <i class="fa-solid fa-keyboard"></i> Launch Full Typing Tool
-                </a>
-            </div>
-            <div class="interactive-typing-box">
-                <div class="typing-box-header">
-                    <span>LIVE DEMO PRACTICE</span>
-                    <span id="charCount">0 Characters</span>
-                </div>
-                <textarea class="typing-textarea" id="demoTypingInput" placeholder="तपाईं यहाँ नेपालीमा टाइप अभ्यास गर्न सक्नुहुन्छ..."></textarea>
-            </div>
-        </section>
-
-        <!-- Controls (Pills & Sort) -->
-        <section class="controls-section" id="blogs">
-            <div class="category-pills" id="categoryContainer"></div>
-            
-            <div class="sort-select-box">
-                <i class="fa-solid fa-arrow-down-short-wide"></i>
-                <span>Sort by:</span>
-                <select id="sortSelect">
-                    <option value="newest">Newest First</option>
-                    <option value="oldest">Oldest First</option>
-                    <option value="readTime">Read Time</option>
-                    <option value="az">Alphabetical (A-Z)</option>
-                </select>
-            </div>
-        </section>
-
-        <!-- Dynamic Blog Grid -->
-        <div class="blog-grid" id="blogGrid"></div>
-
-        <!-- Creator Showcase -->
-        <section class="author-card" id="about">
-            <h3>About the Creator</h3>
-            <p>Hi, I'm Anil Lama! I create web tools, digital guides, and technology articles to help developers and learners build digital skills efficiently.</p>
-            <a href="/about.html" class="btn-primary" style="background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color);">
-                <i class="fa-solid fa-address-card"></i> View Full Portfolio
-            </a>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <ul class="footer-links">
-                <li><a href="/about.html">About Us</a></li>
-                <li><a href="/contact.html">Contact Us</a></li>
-                <li><a href="/privacy-policy.html">Privacy Policy</a></li>
-                <li><a href="/terms.html">Terms of Service</a></li>
-                <li><a href="/disclaimer.html">Disclaimer</a></li>
-            </ul>
-            <div class="social-links">
-                <a href="#"><i class="fa-brands fa-github"></i></a>
-                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-            </div>
-            <p>© 2026 Anillama.com.np - All Rights Reserved.</p>
+        <h3>Manish Enterprises | Accountant & Marketing Manager</h3>
+        <p>Managed accounting operations and marketing initiatives for four years. Responsible for building customer relationships, providing top-notch services, and contributing to technical aspects of DIY product development.</p>
+      </div>
+      <div class="card glass-card experience-card">
+        <div class="experience-header">
+          <span class="experience-year">2022</span>
         </div>
-    </footer>
+        <h3>Roshi Handicraft | Manager</h3>
+        <p>Oversaw multiple projects, organized training for women empowerment initiatives, and enhanced personal and professional skills.</p>
+      </div>
+      <div class="card glass-card experience-card current">
+        <div class="experience-header">
+          <span class="experience-year">2022 – Present</span>
+          <span class="current-badge">Current</span>
+        </div>
+        <h3>Fonepay | Lead - L1 Support & Social Media Support</h3>
+        <p>Key role in ensuring seamless digital payment operations, optimizing processes, and contributing to company growth through innovation and efficiency.</p>
+      </div>
+    </section>
 
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">Link copied to clipboard!</div>
+    <!-- Contact Section -->
+    <section id="contact" class="reveal-section">
+      <div class="section-header">
+        <h2>Contact</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="card glass-card contact-card">
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <div>
+            <strong>Email</strong>
+            <a href="mailto:info@anillama.com.np">info@anillama.com.np</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <div>
+            <strong>Phone</strong>
+            <a href="tel:+9865585569">+977 9865585569</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <!-- Script Logic -->
-    <script>
-        // 1. Full 10 Blog Posts Data
-        const blogs = [
-            {
-                id: 1,
-                title: "Top 10 AI Tools for App Developers",
-                description: "Discover the best AI tools to speed up your app development workflow.",
-                slug: "Top-10-AI-Tools",
-                category: "AI Tools",
-                date: "August 2026",
-                readTime: "12 min read",
-                icon: "🚀",
-                featured: true
-            },    
-            {
-                id: 2,
-                title: "AI for App Building: Beginner's Guide",
-                description: "Discover how AI tools and natural language prompts are transforming modern full-stack app development.",
-                slug: "AI-for-App-Building",
-                category: "Web Dev",
-                date: "August 2026",
-                readTime: "12 min read",
-                icon: "💻",
-                featured: false
-            },    
-            {
-                id: 3,
-                title: "What Are Large Language Models (LLMs)?",
-                description: "A complete beginner's guide demystifying the architecture and power behind modern Large Language Models.",
-                slug: "LLMs-A-Beginner's Guide",
-                category: "AI Trends",
-                date: "July 21, 2026",
-                readTime: "15 min read",
-                icon: "💡",
-                featured: false
-            },    
-            {
-                id: 4,
-                title: "How Machine Learning Works with Real Examples",
-                description: "Every time you unlock your phone or scroll feeds, ML is working. Learn how machine learning algorithms operate.",
-                slug: "Machine-Learning-Works",
-                category: "AI Basics",
-                date: "July 2026",
-                readTime: "10 min read",
-                icon: "⚙",
-                featured: false
-            },
-            {
-                id: 5,
-                title: "Set Up Nepali Unicode Keyboard Layouts",
-                description: "Complete guide to configuring native Devanagari typing on Windows, Mac, Android, and iOS devices smoothly.",
-                slug: "Set-Up-Nepali-Unicode-Keyboard",
-                category: "Typing Guides",
-                date: "July 2026",
-                readTime: "8 min read",
-                icon: "🔑",
-                featured: false
-            },
-            {
-                id: 6,
-                title: "AI Automation with n8n – Complete Beginner Guide",
-                description: "Learn how to automate repetitive tasks using APIs, AI models, Google Sheets, and custom n8n workflows.",
-                slug: "ai-automation-with-n8n",
-                category: "Automation",
-                date: "July 2026",
-                readTime: "8 min read",
-                icon: "🤖",
-                featured: false
-            },
-            {
-                id: 7,
-                title: "What is AI? A Complete Fundamental Overview",
-                description: "A practical breakdown of Artificial Intelligence, Machine Learning, and Generative AI concepts for total beginners.",
-                slug: "what-is-ai",
-                category: "AI Basics",
-                date: "July 21, 2026",
-                readTime: "6 min read",
-                icon: "💡",
-                featured: false
-            },
-            {
-                id: 8,
-                title: "How AI is Growing in Global Industries",
-                description: "Discover how Artificial Intelligence is rapidly transforming global economy, workforce dynamics, and enterprise development.",
-                slug: "how-ai-is-growing-in-the-world",
-                category: "AI Trends",
-                date: "July 2026",
-                readTime: "7 min read",
-                icon: "🌐",
-                featured: false
-            },
-            {
-                id: 9,
-                title: "AI for Data Analysis: Key Learnings & Workflow",
-                description: "Leverage AI tools for predictive data analytics, automated reporting, data visualization, and prompt query pipelines.",
-                slug: "AI-for-Data-Analysis",
-                category: "AI Trends",
-                date: "August 2026",
-                readTime: "10 min read",
-                icon: "📊",
-                featured: false
-            },
-            {
-                id: 10,
-                title: "Best AI Tools for Students in 2026",
-                description: "Boost academic research, coding homework, and exam preparation productivity with top-rated student AI applications.",
-                slug: "best-ai-tools-for-students",
-                category: "Productivity",
-                date: "July 2026",
-                readTime: "5 min read",
-                icon: "🎓",
-                featured: false
-            }
-        ];
+    <!-- Nepali Typing Tool Section -->
+    <section id="typing" class="reveal-section">
+      <div class="section-header">
+        <h2>Nepali Typing Converter</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="card glass-card">
+        <iframe src="https://www.ashesh.com.np/linknepali-unicode3.php?api=492041p542"
+                width="100%" height="360" frameborder="0" scrolling="no"
+                class="typing-frame"></iframe>
+        <p class="tool-credit">© Nepali Unicode</p>
+        <div class="btn-group">
+          <a href="https://anillama.com.np/nepali-typing/" target="_blank" class="btn">Check Website</a>
+          <a href="https://anillama.com.np/typinggame/" target="_blank" class="btn btn-secondary">Typing Game</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
-        // State Setup
-        let currentCategory = "All";
-        let searchQuery = "";
-        let currentSort = "newest";
-        let bookmarkedIds = new Set();
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Anil Lama | All Rights Reserved.</p>
+  </footer>
 
-        // DOM Element Cache
-        const blogGrid = document.getElementById("blogGrid");
-        const featuredContainer = document.getElementById("featuredContainer");
-        const categoryContainer = document.getElementById("categoryContainer");
-        const searchInput = document.getElementById("searchInput");
-        const clearSearchBtn = document.getElementById("clearSearch");
-        const sortSelect = document.getElementById("sortSelect");
-        const themeToggleBtn = document.getElementById("themeToggle");
-        const demoTypingInput = document.getElementById("demoTypingInput");
-        const charCount = document.getElementById("charCount");
-        const toast = document.getElementById("toast");
-
-        // Initialization
-        document.addEventListener("DOMContentLoaded", () => {
-            initTheme();
-            renderCategories();
-            renderBlogs();
-
-            // Event Handlers
-            if(searchInput) searchInput.addEventListener("input", handleSearch);
-            if(clearSearchBtn) clearSearchBtn.addEventListener("click", clearSearch);
-            if(sortSelect) sortSelect.addEventListener("change", (e) => {
-                currentSort = e.target.value;
-                renderBlogs();
-            });
-            if(themeToggleBtn) themeToggleBtn.addEventListener("click", toggleTheme);
-            if(demoTypingInput) {
-                demoTypingInput.addEventListener("input", (e) => {
-                    charCount.textContent = `${e.target.value.length} Characters`;
-                });
-            }
-        });
-
-        // 2. Categories Pill Generator
-        function renderCategories() {
-            if(!categoryContainer) return;
-            const categories = ["All", ...new Set(blogs.map(b => b.category))];
-            categoryContainer.innerHTML = categories.map(cat => {
-                const count = cat === "All" ? blogs.length : blogs.filter(b => b.category === cat).length;
-                return `
-                    <button class="pill ${cat === currentCategory ? 'active' : ''}" onclick="selectCategory('${cat}')">
-                        ${cat} (${count})
-                    </button>
-                `;
-            }).join("");
-        }
-
-        function selectCategory(cat) {
-            currentCategory = cat;
-            renderCategories();
-            renderBlogs();
-        }
-
-        // 3. Search Mechanics
-        function handleSearch(e) {
-            searchQuery = e.target.value.toLowerCase();
-            clearSearchBtn.style.display = searchQuery ? "block" : "none";
-            renderBlogs();
-        }
-
-        function clearSearch() {
-            searchInput.value = "";
-            searchQuery = "";
-            clearSearchBtn.style.display = "none";
-            renderBlogs();
-        }
-
-        // 4. Render Main Blog Grid & Featured Box
-        function renderBlogs() {
-            if(!blogGrid) return;
-
-            // Filter
-            let filtered = blogs.filter(blog => {
-                const matchesCategory = currentCategory === "All" || blog.category === currentCategory;
-                const matchesSearch = blog.title.toLowerCase().includes(searchQuery) || 
-                                      blog.description.toLowerCase().includes(searchQuery);
-                return matchesCategory && matchesSearch;
-            });
-
-            // Sort
-            filtered.sort((a, b) => {
-                if (currentSort === "newest") return b.id - a.id;
-                if (currentSort === "oldest") return a.id - b.id;
-                if (currentSort === "readTime") return parseInt(a.readTime) - parseInt(b.readTime);
-                if (currentSort === "az") return a.title.localeCompare(b.title);
-            });
-
-            // Render Featured Card (Only on 'All' & no active search filter)
-            const featured = blogs.find(b => b.featured);
-            if (featuredContainer) {
-                if (featured && currentCategory === "All" && !searchQuery) {
-                    featuredContainer.innerHTML = `
-                        <div class="featured-card">
-                            <div class="featured-content">
-                                <span class="featured-tag"><i class="fa-solid fa-star"></i> Featured Guide</span>
-                                <h2>${featured.title}</h2>
-                                <p>${featured.description}</p>
-                                <div class="meta-info">
-                                    <span><i class="fa-regular fa-calendar"></i> ${featured.date}</span>
-                                    <span><i class="fa-regular fa-clock"></i> ${featured.readTime}</span>
-                                </div>
-                                <a href="${featured.slug}" class="btn-link">Read Full Guide <i class="fa-solid fa-arrow-right"></i></a>
-                            </div>
-                            <div class="featured-visual">
-                                ${featured.icon}
-                            </div>
-                        </div>
-                    `;
-                    featuredContainer.style.display = "block";
-                } else {
-                    featuredContainer.style.display = "none";
-                }
-            }
-
-            // Render Blog Cards
-            if (filtered.length === 0) {
-                blogGrid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-muted);">
-                        <i class="fa-solid fa-magnifying-glass" style="font-size: 2.5rem; margin-bottom: 12px;"></i>
-                        <p>No articles found matching your criteria.</p>
-                    </div>`;
-                return;
-            }
-
-            blogGrid.innerHTML = filtered.map(blog => `
-                <article class="card">
-                    <div>
-                        <div class="card-header-meta">
-                            <div>
-                                <span class="card-tag">${blog.category}</span>
-                                ${blog.id === 1 || blog.id === 2 ? '<span class="new-badge">NEW</span>' : ''}
-                            </div>
-                            <div class="card-actions">
-                                <button onclick="toggleBookmark(${blog.id})" title="Bookmark">
-                                    <i class="${bookmarkedIds.has(blog.id) ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
-                                </button>
-                                <button onclick="shareArticle('${blog.title}')" title="Share">
-                                    <i class="fa-solid fa-share-nodes"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <h3 class="card-title"><a href="${blog.slug}">${blog.icon} ${blog.title}</a></h3>
-                        <p class="card-text">${blog.description}</p>
-                    </div>
-                    <div class="card-footer">
-                        <span><i class="fa-regular fa-clock"></i> ${blog.readTime}</span>
-                        <a href="${blog.slug}" class="btn-link" style="font-size: 0.85rem;">Read Guide <i class="fa-solid fa-arrow-right"></i></a>
-                    </div>
-                </article>
-            `).join("");
-        }
-
-        // Interactive Utilities
-        function toggleBookmark(id) {
-            if (bookmarkedIds.has(id)) bookmarkedIds.delete(id);
-            else bookmarkedIds.add(id);
-            renderBlogs();
-        }
-
-        function shareArticle(title) {
-            navigator.clipboard.writeText(window.location.href);
-            toast.textContent = `Link copied for "${title.substring(0, 24)}..." 🚀`;
-            toast.classList.add("show");
-            setTimeout(() => toast.classList.remove("show"), 3000);
-        }
-
-        // Theme Switcher Logic
-        function initTheme() {
-            const savedTheme = localStorage.getItem("theme") || "dark";
-            document.documentElement.setAttribute("data-theme", savedTheme);
-            updateThemeIcon(savedTheme);
-        }
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute("data-theme");
-            const newTheme = currentTheme === "dark" ? "light" : "dark";
-            document.documentElement.setAttribute("data-theme", newTheme);
-            localStorage.setItem("theme", newTheme);
-            updateThemeIcon(newTheme);
-        }
-
-        function updateThemeIcon(theme) {
-            if(!themeToggleBtn) return;
-            themeToggleBtn.innerHTML = theme === "dark" ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-        }
-    </script>
+  <!-- Scripts -->
+  <script src="js/script.js"></script>
 </body>
 </html>
