@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Hub - Insights & Articles</title>
+    
+    <!-- CSS Link -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="ambient-bg"></div>
+
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">
+            <span class="logo-icon">📚</span>
+            <h2>Knowledge<span>Hub</span></h2>
+        </div>
+        <button class="theme-toggle" id="themeToggle" title="Toggle Light/Dark Mode">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <main class="container">
+        <!-- Featured Spotlight Hero Section -->
+        <section class="featured-wrapper" id="featuredContainer">
+            <!-- Dynamic Featured Blog Rendered by JS -->
+        </section>
+
+        <!-- Search & Sorting Filter Controls -->
+        <section class="controls-section">
+            <div class="search-sort-bar">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Search articles by title, tags, or keywords...">
+                    <button id="clearSearch" class="clear-btn"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <div class="sort-box">
+                    <i class="fa-solid fa-arrow-down-wide-short"></i>
+                    <select id="sortSelect">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="readTime">Quickest Reads</option>
+                        <option value="az">Title (A-Z)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="categories" id="categoryContainer">
+                <!-- Rendered Dynamically by JS -->
+            </div>
+
+            <div class="results-meta">
+                <span id="articleCount">Showing 0 articles</span>
+            </div>
+        </section>
+
+        <!-- Blog Grid Container -->
+        <section class="blog-grid" id="blogGrid">
+            <!-- Rendered Dynamically by JS -->
+        </section>
+    </main>
+
+    <!-- Toast Notification for Share Link -->
+    <div id="toast" class="toast">Link copied to clipboard! 🚀</div>
+
+    <!-- JavaScript Link -->
+    <script src="script.js"></script>
+</body>
+</html>
