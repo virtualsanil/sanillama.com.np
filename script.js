@@ -1,319 +1,401 @@
-// Complete 10 Blog Posts Data Array (Strictly using YOUR original data)
-const blogs = [
-    {
-        id: 1,
-        title: "Top 10 AI Tools for App Developers",
-        description: "Discover the best AI tools to speed up your app development workflow.",
-        slug: "Top-10-AI-Tools",
-        category: "AI Tools",
-        date: "August 2026",
-        readTime: "12 min read",
-        icon: "🚀",
-        featured: true // Hero section
-    },    
-    {
-        id: 2,
-        title: "AI for App Building",
-        description: "Discover how AI tools are transforming modern app development.",
-        slug: "AI-for-App-Building",
-        category: "Development By AI",
-        date: "August 2026",
-        readTime: "12 min read",
-        icon: "🚀",
-        featured: false
-    },    
-    {
-        id: 3,
-        title: "What Are Large Language Models (LLMs)? A Complete Beginner's Guide",
-        description: "Power of a Large Language Model (LLM).",
-        slug: "LLMs-A-Beginner's Guide",
-        category: "AI Trends",
-        date: "July 21, 2026",
-        readTime: "15 min read",
-        icon: "💡",
-        featured: false
-    },    
-    {
-        id: 4,
-        title: "How Machine Learning Works with Real Examples",
-        description: "Every time you unlock your phone with your face, scroll through personalized video recommendations on YouTube, or receive a text message warning you about a suspicious credit card transaction, you are interacting with Machine Learning (ML).",
-        slug: "Machine-Learning-Works",
-        category: "AI Basics",
-        date: "July 2026",
-        readTime: "10 min read",
-        icon: "⚙",
-        featured: false
-    },
-    {
-        id: 5,
-        title: "Install and Set Up Nepali Unicode Keyboard on Windows, Mac, Android, and iOS",
-        description: "A complete, multi-platform guide to setting up native Devanagari typing on all your devices. Learn how to enable system-level language packs, switch between Traditional and Romanized layouts, master keyboard shortcuts, and fix common rendering glitches on Windows, Mac, Android, and iOS.",
-        slug: "Set-Up-Nepali-Unicode-Keyboard",
-        category: "Setup",
-        date: "July 2026",
-        readTime: "8 min read",
-        icon: "🔑",
-        featured: false
-    },
-    {
-        id: 6,
-        title: "AI Automation with n8n – Complete Beginner Guide",
-        description: "Learn how to automate repetitive tasks using AI, APIs, Google Sheets, and n8n workflows.",
-        slug: "ai-automation-with-n8n",
-        category: "Automation",
-        date: "July 2026",
-        readTime: "8 min read",
-        icon: "🤖",
-        featured: false
-    },
-    {
-        id: 7,
-        title: "What is AI? A Beginner's Guide",
-        description: "A complete breakdown of Artificial Intelligence, Machine Learning, and Generative AI for total beginners.",
-        slug: "what-is-ai",
-        category: "AI Basics",
-        date: "July 21, 2026",
-        readTime: "6 min read",
-        icon: "💡",
-        featured: false
-    },
-    {
-        id: 8,
-        title: "How AI is Growing in the World",
-        description: "Discover how Artificial Intelligence is transforming major global industries, workforce dynamics, and the future economy.",
-        slug: "how-ai-is-growing-in-the-world",
-        category: "AI Trends",
-        date: "July 2026",
-        readTime: "7 min read",
-        icon: "🌐",
-        featured: false
-    },
-    {
-        id: 9,
-        title: "AI for Data Analysis: A Complete Beginner's Guide & Key Learnings",
-        description: "Discover how Artificial Intelligence is transforming major global industries, workforce dynamics, and the future economy.",
-        slug: "AI-for-Data-Analysis",
-        category: "AI Trends",
-        date: "August 2026",
-        readTime: "10 min read",
-        icon: "🎓",
-        featured: false
-    },
-    {
-        id: 10,
-        title: "Best AI Tools for Students in 2026",
-        description: "Boost your productivity with top AI tools for research, literature review, writing, coding, and exam preparation.",
-        slug: "best-ai-tools-for-students",
-        category: "Productivity",
-        date: "July 2026",
-        readTime: "5 min read",
-        icon: "🎓",
-        featured: false
+!(function ($) {
+  "use strict";
+
+  // Nav Menu
+  $(document).on("click", ".nav-menu a, .mobile-nav a", function (e) {
+    if (
+      location.pathname.replace(/^\//, "") ==
+        this.pathname.replace(/^\//, "") &&
+      location.hostname == this.hostname
+    ) {
+      var hash = this.hash;
+      var target = $(hash);
+      if (target.length) {
+        e.preventDefault();
+
+        if ($(this).parents(".nav-menu, .mobile-nav").length) {
+          $(".nav-menu .active, .mobile-nav .active").removeClass("active");
+          $(this).closest("li").addClass("active");
+        }
+
+        if (!$("#header").hasClass("header-top")) {
+          $("#header").addClass("header-top");
+          setTimeout(function () {
+            $("section").removeClass("section-show");
+            $(hash).addClass("section-show");
+          }, 350);
+        } else {
+          $("html, body").animate({ scrollTop: 0 }, "slow");
+          $("section").removeClass("section-show");
+          $(hash).addClass("section-show");
+        }
+
+        if ($("body").hasClass("mobile-nav-active")) {
+          $("body").removeClass("mobile-nav-active");
+          $(".mobile-nav-toggle i").toggleClass(
+            "icofont-navigation-menu icofont-close"
+          );
+          $(".mobile-nav-overly").fadeOut();
+        }
+
+        if (hash == "#header") {
+          $("#header").removeClass("header-top");
+          $("section").removeClass("section-show");
+          return;
+        }
+
+        return false;
+      }
     }
-];
+  });
 
-// State Variables
-let currentCategory = "All";
-let searchQuery = "";
-let currentSort = "newest";
-let bookmarkedIds = new Set();
+  // Activate/show sections on load with hash links
+  if (window.location.hash) {
+    var initial_nav = window.location.hash;
+    if ($(initial_nav).length) {
+      $("#header").addClass("header-top");
+      $(".nav-menu .active, .mobile-nav .active").removeClass("active");
+      $(".nav-menu, .mobile-nav")
+        .find('a[href="' + initial_nav + '"]')
+        .parent("li")
+        .addClass("active");
+      setTimeout(function () {
+        $("section").removeClass("section-show");
+        $(initial_nav).addClass("section-show");
+      }, 350);
+    }
+  }
 
-// DOM Elements
-const blogGrid = document.getElementById("blogGrid");
-const featuredContainer = document.getElementById("featuredContainer");
-const categoryContainer = document.getElementById("categoryContainer");
-const searchInput = document.getElementById("searchInput");
-const clearSearchBtn = document.getElementById("clearSearch");
-const sortSelect = document.getElementById("sortSelect");
-const articleCount = document.getElementById("articleCount");
-const themeToggleBtn = document.getElementById("themeToggle");
-const toast = document.getElementById("toast");
-
-// Initialize Application
-document.addEventListener("DOMContentLoaded", () => {
-    initTheme();
-    renderCategories();
-    renderBlogs();
-
-    // Event Listeners
-    if(searchInput) searchInput.addEventListener("input", handleSearch);
-    if(clearSearchBtn) clearSearchBtn.addEventListener("click", clearSearch);
-    if(sortSelect) sortSelect.addEventListener("change", (e) => {
-        currentSort = e.target.value;
-        renderBlogs();
+  // Mobile Navigation
+  if ($(".nav-menu").length) {
+    var $mobile_nav = $(".nav-menu").clone().prop({
+      class: "mobile-nav d-lg-none",
     });
-    if(themeToggleBtn) themeToggleBtn.addEventListener("click", toggleTheme);
+    $("body").append($mobile_nav);
+    $("body").prepend(
+      '<button type="button" class="mobile-nav-toggle d-lg-none"><i class="icofont-navigation-menu"></i></button>'
+    );
+    $("body").append('<div class="mobile-nav-overly"></div>');
+
+    $(document).on("click", ".mobile-nav-toggle", function (e) {
+      $("body").toggleClass("mobile-nav-active");
+      $(".mobile-nav-toggle i").toggleClass(
+        "icofont-navigation-menu icofont-close"
+      );
+      $(".mobile-nav-overly").toggle();
+    });
+
+    $(document).click(function (e) {
+      var container = $(".mobile-nav, .mobile-nav-toggle");
+      if (!container.is(e.target) && container.has(e.target).length === 0) {
+        if ($("body").hasClass("mobile-nav-active")) {
+          $("body").removeClass("mobile-nav-active");
+          $(".mobile-nav-toggle i").toggleClass(
+            "icofont-navigation-menu icofont-close"
+          );
+          $(".mobile-nav-overly").fadeOut();
+        }
+      }
+    });
+  } else if ($(".mobile-nav, .mobile-nav-toggle").length) {
+    $(".mobile-nav, .mobile-nav-toggle").hide();
+  }
+
+  // jQuery counterUp
+  $('[data-toggle="counter-up"]').counterUp({
+    delay: 10,
+    time: 1000,
+  });
+
+  // Skills section
+  $(".skills-content").waypoint(
+    function () {
+      $(".progress .progress-bar").each(function () {
+        $(this).css("width", $(this).attr("aria-valuenow") + "%");
+      });
+    },
+    {
+      offset: "80%",
+    }
+  );
+
+  // Testimonials carousel (uses the Owl Carousel library)
+  $(".testimonials-carousel").owlCarousel({
+    autoplay: true,
+    dots: true,
+    loop: true,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      768: {
+        items: 2,
+      },
+      900: {
+        items: 3,
+      },
+    },
+  });
+
+  // Porfolio isotope and filter
+  $(window).on("load", function () {
+    var portfolioIsotope = $(".portfolio-container").isotope({
+      itemSelector: ".portfolio-item",
+      layoutMode: "fitRows",
+    });
+
+    $("#portfolio-flters li").on("click", function () {
+      $("#portfolio-flters li").removeClass("filter-active");
+      $(this).addClass("filter-active");
+
+      portfolioIsotope.isotope({
+        filter: $(this).data("filter"),
+      });
+    });
+  });
+
+  // Initiate venobox (lightbox feature used in portofilo)
+  $(document).ready(function () {
+    $(".venobox").venobox();
+  });
+})(jQuery);
+
+/** For animation in home page */
+
+jQuery(document).ready(function ($) {
+  //set animation timing
+  var animationDelay = 2500,
+    //loading bar effect
+    barAnimationDelay = 3800,
+    barWaiting = barAnimationDelay - 3000, //3000 is the duration of the transition on the loading bar - set in the scss/css file
+    //letters effect
+    lettersDelay = 50,
+    //type effect
+    typeLettersDelay = 150,
+    selectionDuration = 500,
+    typeAnimationDelay = selectionDuration + 800,
+    //clip effect
+    revealDuration = 600,
+    revealAnimationDelay = 1500;
+
+  initHeadline();
+
+  function initHeadline() {
+    //insert <i> element for each letter of a changing word
+    singleLetters($(".cd-headline.letters").find("b"));
+    //initialise headline animation
+    animateHeadline($(".cd-headline"));
+  }
+
+  function singleLetters($words) {
+    $words.each(function () {
+      var word = $(this),
+        letters = word.text().split(""),
+        selected = word.hasClass("is-visible");
+      for (i in letters) {
+        if (word.parents(".rotate-2").length > 0)
+          letters[i] = "<em>" + letters[i] + "</em>";
+        letters[i] = selected
+          ? '<i class="in">' + letters[i] + "</i>"
+          : "<i>" + letters[i] + "</i>";
+      }
+      var newLetters = letters.join("");
+      word.html(newLetters).css("opacity", 1);
+    });
+  }
+
+  function animateHeadline($headlines) {
+    var duration = animationDelay;
+    $headlines.each(function () {
+      var headline = $(this);
+
+      if (headline.hasClass("loading-bar")) {
+        duration = barAnimationDelay;
+        setTimeout(function () {
+          headline.find(".cd-words-wrapper").addClass("is-loading");
+        }, barWaiting);
+      } else if (headline.hasClass("clip")) {
+        var spanWrapper = headline.find(".cd-words-wrapper"),
+          newWidth = spanWrapper.width() + 10;
+        spanWrapper.css("width", newWidth);
+      } else if (!headline.hasClass("type")) {
+        //assign to .cd-words-wrapper the width of its longest word
+        var words = headline.find(".cd-words-wrapper b"),
+          width = 0;
+        words.each(function () {
+          var wordWidth = $(this).width();
+          if (wordWidth > width) width = wordWidth;
+        });
+        headline.find(".cd-words-wrapper").css("width", width);
+      }
+
+      //trigger animation
+      setTimeout(function () {
+        hideWord(headline.find(".is-visible").eq(0));
+      }, duration);
+    });
+  }
+
+  function hideWord($word) {
+    var nextWord = takeNext($word);
+
+    if ($word.parents(".cd-headline").hasClass("type")) {
+      var parentSpan = $word.parent(".cd-words-wrapper");
+      parentSpan.addClass("selected").removeClass("waiting");
+      setTimeout(function () {
+        parentSpan.removeClass("selected");
+        $word
+          .removeClass("is-visible")
+          .addClass("is-hidden")
+          .children("i")
+          .removeClass("in")
+          .addClass("out");
+      }, selectionDuration);
+      setTimeout(function () {
+        showWord(nextWord, typeLettersDelay);
+      }, typeAnimationDelay);
+    } else if ($word.parents(".cd-headline").hasClass("letters")) {
+      var bool =
+        $word.children("i").length >= nextWord.children("i").length
+          ? true
+          : false;
+      hideLetter($word.find("i").eq(0), $word, bool, lettersDelay);
+      showLetter(nextWord.find("i").eq(0), nextWord, bool, lettersDelay);
+    } else if ($word.parents(".cd-headline").hasClass("clip")) {
+      $word
+        .parents(".cd-words-wrapper")
+        .animate({ width: "2px" }, revealDuration, function () {
+          switchWord($word, nextWord);
+          showWord(nextWord);
+        });
+    } else if ($word.parents(".cd-headline").hasClass("loading-bar")) {
+      $word.parents(".cd-words-wrapper").removeClass("is-loading");
+      switchWord($word, nextWord);
+      setTimeout(function () {
+        hideWord(nextWord);
+      }, barAnimationDelay);
+      setTimeout(function () {
+        $word.parents(".cd-words-wrapper").addClass("is-loading");
+      }, barWaiting);
+    } else {
+      switchWord($word, nextWord);
+      setTimeout(function () {
+        hideWord(nextWord);
+      }, animationDelay);
+    }
+  }
+
+  function showWord($word, $duration) {
+    if ($word.parents(".cd-headline").hasClass("type")) {
+      showLetter($word.find("i").eq(0), $word, false, $duration);
+      $word.addClass("is-visible").removeClass("is-hidden");
+    } else if ($word.parents(".cd-headline").hasClass("clip")) {
+      $word
+        .parents(".cd-words-wrapper")
+        .animate({ width: $word.width() + 10 }, revealDuration, function () {
+          setTimeout(function () {
+            hideWord($word);
+          }, revealAnimationDelay);
+        });
+    }
+  }
+
+  function hideLetter($letter, $word, $bool, $duration) {
+    $letter.removeClass("in").addClass("out");
+
+    if (!$letter.is(":last-child")) {
+      setTimeout(function () {
+        hideLetter($letter.next(), $word, $bool, $duration);
+      }, $duration);
+    } else if ($bool) {
+      setTimeout(function () {
+        hideWord(takeNext($word));
+      }, animationDelay);
+    }
+
+    if ($letter.is(":last-child") && $("html").hasClass("no-csstransitions")) {
+      var nextWord = takeNext($word);
+      switchWord($word, nextWord);
+    }
+  }
+
+  function showLetter($letter, $word, $bool, $duration) {
+    $letter.addClass("in").removeClass("out");
+
+    if (!$letter.is(":last-child")) {
+      setTimeout(function () {
+        showLetter($letter.next(), $word, $bool, $duration);
+      }, $duration);
+    } else {
+      if ($word.parents(".cd-headline").hasClass("type")) {
+        setTimeout(function () {
+          $word.parents(".cd-words-wrapper").addClass("waiting");
+        }, 200);
+      }
+      if (!$bool) {
+        setTimeout(function () {
+          hideWord($word);
+        }, animationDelay);
+      }
+    }
+  }
+
+  function takeNext($word) {
+    return !$word.is(":last-child")
+      ? $word.next()
+      : $word.parent().children().eq(0);
+  }
+
+  function takePrev($word) {
+    return !$word.is(":first-child")
+      ? $word.prev()
+      : $word.parent().children().last();
+  }
+
+  function switchWord($oldWord, $newWord) {
+    $oldWord.removeClass("is-visible").addClass("is-hidden");
+    $newWord.removeClass("is-hidden").addClass("is-visible");
+  }
 });
 
-// Helper: Check if date is recent (New tag within 30 days)
-function isNew(dateString) {
-    const blogDate = new Date(dateString);
-    const now = new Date("2026-08-08"); // Current date reference for logic
-    const diffDays = (now - blogDate) / (1000 * 60 * 60 * 24);
-    return diffDays >= 0 && diffDays <= 30; // 30 days time window for "NEW"
+/** Scroll bar bottom to top button JS */
+
+$(window).scroll(function () {
+  var height = $(window).scrollTop();
+  if (height > 100) {
+    $("#back2Top").fadeIn();
+  } else {
+    $("#back2Top").fadeOut();
+  }
+});
+$(document).ready(function () {
+  $("#back2Top").click(function (event) {
+    event.preventDefault();
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    return false;
+  });
+});
+/*Scroll to top when arrow up clicked END*/
+
+function hideLoader() {
+  $("#loading").hide();
 }
 
-// Render Categories with Count Badges
-function renderCategories() {
-    if(!categoryContainer) return;
-    const categories = ["All", ...new Set(blogs.map(b => b.category))];
-    categoryContainer.innerHTML = categories.map(cat => {
-        const count = cat === "All" ? blogs.length : blogs.filter(b => b.category === cat).length;
-        return `
-            <button class="pill ${cat === currentCategory ? 'active' : ''}" onclick="selectCategory('${cat}')">
-                ${cat} (${count})
-            </button>
-        `;
-    }).join("");
-}
+// $(window).ready(hideLoader);
 
-function selectCategory(cat) {
-    currentCategory = cat;
-    renderCategories();
-    renderBlogs();
-}
+// Strongly recommended: Hide loader after 20 seconds, even if the page hasn't finished loading
+ setTimeout(hideLoader, 4500);
 
-// Search Handler
-function handleSearch(e) {
-    searchQuery = e.target.value.toLowerCase();
-    if(clearSearchBtn) clearSearchBtn.style.display = searchQuery ? "block" : "none";
-    renderBlogs();
-}
-
-function clearSearch() {
-    searchInput.value = "";
-    searchQuery = "";
-    if(clearSearchBtn) clearSearchBtn.style.display = "none";
-    renderBlogs();
-}
-
-// Render Featured & Grid Blogs
-function renderBlogs() {
-    if(!blogGrid) return;
-    
-    // 1. Filter Blogs
-    let filtered = blogs.filter(blog => {
-        const matchesCategory = currentCategory === "All" || blog.category === currentCategory;
-        const matchesSearch = blog.title.toLowerCase().includes(searchQuery) || 
-                              blog.description.toLowerCase().includes(searchQuery); // Changed from summary to description
-        return matchesCategory && matchesSearch;
-    });
-
-    // 2. Sort Blogs
-    filtered.sort((a, b) => {
-        if (currentSort === "newest") return new Date(b.date) - new Date(a.date);
-        if (currentSort === "oldest") return new Date(a.date) - new Date(b.date);
-        if (currentSort === "readTime") return parseInt(a.readTime) - parseInt(b.readTime);
-        if (currentSort === "az") return a.title.localeCompare(b.title);
-    });
-
-    // 3. Render Featured Banner (Only when in 'All' category & no active search)
-    const featured = blogs.find(b => b.featured);
-    if (featuredContainer) {
-        if (featured && currentCategory === "All" && !searchQuery) {
-            featuredContainer.innerHTML = `
-                <div class="featured-card">
-                    <div class="featured-content">
-                        <span class="featured-badge">Featured Post</span>
-                        <h1>${featured.title}</h1>
-                        <p>${featured.description}</p>
-                        <div class="meta-info">
-                            <span><i class="fa-regular fa-calendar"></i> ${featured.date}</span>
-                            <span><i class="fa-regular fa-clock"></i> ${featured.readTime}</span>
-                        </div>
-                        <br>
-                        <a href="${featured.slug}" target="_blank" style="color: var(--accent); font-weight: bold; text-decoration: none;">Read Article <i class="fa-solid fa-arrow-right"></i></a>
-                    </div>
-                    <div class="featured-image-holder">
-                        ${featured.icon}
-                    </div>
-                </div>
-            `;
-            featuredContainer.style.display = "block";
-        } else {
-            featuredContainer.style.display = "none";
-        }
-    }
-
-    // 4. Update Article Counter
-    if(articleCount) {
-        articleCount.textContent = `Showing ${filtered.length} article${filtered.length !== 1 ? 's' : ''}`;
-    }
-
-    // 5. Render Blog Grid Cards
-    if (filtered.length === 0) {
-        blogGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary);">No articles found matching your query.</div>`;
-        return;
-    }
-
-    blogGrid.innerHTML = filtered.map(blog => `
-        <article class="blog-card">
-            <div>
-                <div class="card-top">
-                    <div>
-                        <span class="category-badge">${blog.category}</span>
-                        ${isNew(blog.date) ? '<span class="new-tag">NEW</span>' : ''}
-                    </div>
-                    <div class="card-actions">
-                        <button onclick="toggleBookmark(${blog.id})" title="Bookmark">
-                            <i class="${bookmarkedIds.has(blog.id) ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
-                        </button>
-                        <button onclick="shareArticle('${blog.title}')" title="Share">
-                            <i class="fa-solid fa-share-nodes"></i>
-                        </button>
-                    </div>
-                </div>
-                <h3>${blog.icon} ${blog.title}</h3>
-                <p>${blog.description}</p>
-            </div>
-            <div class="card-footer">
-                <div>
-                    <span><i class="fa-regular fa-calendar"></i> ${blog.date}</span>
-                    <span style="margin-left: 10px;"><i class="fa-regular fa-clock"></i> ${blog.readTime}</span>
-                </div>
-                <a href="${blog.slug}" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: none; font-size: 0.9rem;">Read <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-        </article>
-    `).join("");
-}
-
-// Interactive Features
-function toggleBookmark(id) {
-    if (bookmarkedIds.has(id)) {
-        bookmarkedIds.delete(id);
-    } else {
-        bookmarkedIds.add(id);
-    }
-    renderBlogs();
-}
-
-function shareArticle(title) {
-    navigator.clipboard.writeText(window.location.href);
-    if(toast) {
-        toast.textContent = `Link copied for "${title.substring(0, 20)}..." 🚀`;
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 3000);
-    }
-}
-
-// Theme Switcher Logic
-function initTheme() {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    document.documentElement.setAttribute("data-theme", savedTheme);
-    updateThemeIcon(savedTheme);
-}
-
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute("data-theme");
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
-    updateThemeIcon(newTheme);
-}
-
-function updateThemeIcon(theme) {
-    if(!themeToggleBtn) return;
-    themeToggleBtn.innerHTML = theme === "dark" 
-        ? '<i class="fa-solid fa-sun"></i>' 
-        : '<i class="fa-solid fa-moon"></i>';
+//Copy to clipboard
+function copyToClipboard(id) {
+  var copyText = document.getElementById("myAnchor"+id).title;
+  document.addEventListener('copy', function(event) {
+    event.clipboardData.setData('text/plain', copyText);
+    event.preventDefault();
+    document.removeEventListener('copy', copyToClipboard, true);
+  }, true);
+  document.execCommand('copy');
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
