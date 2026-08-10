@@ -53,7 +53,7 @@
       color: var(--text-main);
       font-family: var(--font-heading);
       overflow-x: hidden;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     /* Background Interactive Canvas */
@@ -81,16 +81,16 @@
     /* Top Floating Cyber Nav */
     .navbar {
       position: fixed;
-      top: 20px;
+      top: 15px;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
       max-width: 900px;
-      background: rgba(3, 7, 18, 0.75);
+      background: rgba(3, 7, 18, 0.85);
       backdrop-filter: blur(16px);
       border: 1px solid var(--card-border);
       border-radius: 99px;
-      padding: 0.8rem 1.5rem;
+      padding: 0.7rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -103,7 +103,7 @@
       font-weight: 700;
       color: var(--neon-cyan);
       text-decoration: none;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       letter-spacing: 1px;
     }
 
@@ -111,12 +111,13 @@
       display: flex;
       gap: 1.5rem;
       list-style: none;
+      align-items: center;
     }
 
     .nav-links a {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-family: var(--font-mono);
       transition: all 0.3s ease;
     }
@@ -130,19 +131,19 @@
     .container {
       position: relative;
       z-index: 2;
-      max-width: 1100px;
+      max-width: 1050px;
       margin: 0 auto;
       padding: 0 1.5rem;
     }
 
-    /* Hero Section */
+    /* Hero Section - Tightened */
     .hero {
-      min-height: 100vh;
+      padding-top: 100px;
+      padding-bottom: 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-top: 80px;
-      gap: 3rem;
+      gap: 2.5rem;
     }
 
     .hero-content {
@@ -153,19 +154,19 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 14px;
+      padding: 5px 12px;
       background: rgba(16, 185, 129, 0.1);
       border: 1px solid rgba(16, 185, 129, 0.3);
       border-radius: 20px;
       color: var(--neon-green);
       font-family: var(--font-mono);
-      font-size: 0.85rem;
-      margin-bottom: 1.5rem;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
     }
 
     .pulse-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       background-color: var(--neon-green);
       border-radius: 50%;
       box-shadow: 0 0 10px var(--neon-green);
@@ -179,61 +180,64 @@
     }
 
     .hero-title {
-      font-size: 3.8rem;
+      font-size: 3.2rem;
       font-weight: 700;
       line-height: 1.1;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
       background: linear-gradient(135deg, #ffffff 0%, var(--text-muted) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .hero-subtitle {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       color: var(--neon-cyan);
       font-family: var(--font-mono);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.2rem;
     }
 
     .hero-desc {
       color: var(--text-muted);
-      font-size: 1.05rem;
-      max-width: 550px;
-      margin-bottom: 2rem;
+      font-size: 0.98rem;
+      max-width: 520px;
+      margin-bottom: 1.5rem;
     }
 
     .cta-group {
       display: flex;
       gap: 1rem;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     .btn-cyber {
       position: relative;
-      padding: 0.8rem 1.8rem;
+      padding: 0.7rem 1.5rem;
       background: linear-gradient(135deg, var(--neon-cyan), #0284c7);
       color: #000;
       font-weight: 700;
       font-family: var(--font-mono);
+      font-size: 0.85rem;
       text-decoration: none;
-      border-radius: 8px;
+      border-radius: 6px;
       transition: all 0.3s ease;
-      box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
     }
 
     .btn-cyber:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.6);
     }
 
     .btn-outline {
-      padding: 0.8rem 1.8rem;
+      padding: 0.7rem 1.5rem;
       background: transparent;
       border: 1px solid var(--card-border);
       color: var(--text-main);
       font-family: var(--font-mono);
+      font-size: 0.85rem;
       text-decoration: none;
-      border-radius: 8px;
+      border-radius: 6px;
       transition: all 0.3s ease;
     }
 
@@ -243,28 +247,57 @@
       background: rgba(0, 242, 254, 0.05);
     }
 
+    /* Social Media Icons Styling */
+    .social-links {
+      display: flex;
+      gap: 10px;
+      margin-top: 1.2rem;
+    }
+
+    .social-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .social-btn:hover {
+      color: var(--neon-cyan);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+      transform: translateY(-2px);
+    }
+
     /* Terminal Window Widget */
     .hero-terminal {
-      flex: 0.9;
+      flex: 0.85;
       background: rgba(15, 23, 42, 0.9);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
       font-family: var(--font-mono);
     }
 
     .terminal-header {
       background: rgba(30, 41, 59, 0.8);
-      padding: 10px 15px;
+      padding: 8px 12px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .term-dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
     }
     .red { background: #ef4444; }
@@ -273,36 +306,107 @@
 
     .term-title {
       color: var(--text-muted);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       margin-left: auto;
     }
 
     .terminal-body {
-      padding: 1.5rem;
+      padding: 1.2rem;
       color: var(--text-main);
-      font-size: 0.9rem;
-      min-height: 250px;
+      font-size: 0.85rem;
     }
 
     .code-line {
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.6rem;
     }
     .code-keyword { color: #f43f5e; }
     .code-func { color: #38bdf8; }
     .code-str { color: #a3e635; }
     .code-comment { color: #64748b; }
 
-    /* Tech Cards & Section Styling */
+    /* Infinite Rotating Tools Slider - Compact */
+    .ticker-section {
+      width: 100%;
+      overflow: hidden;
+      padding: 0.8rem 0;
+      margin: 1.5rem 0 2rem;
+      background: rgba(15, 23, 42, 0.4);
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      position: relative;
+    }
+
+    .ticker-section::before,
+    .ticker-section::after {
+      content: '';
+      position: absolute;
+      top: 0; width: 80px; height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .ticker-section::before {
+      left: 0;
+      background: linear-gradient(to right, var(--bg-dark), transparent);
+    }
+
+    .ticker-section::after {
+      right: 0;
+      background: linear-gradient(to left, var(--bg-dark), transparent);
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 1.5rem;
+      width: max-content;
+      animation: scrollTrack 25s linear infinite;
+    }
+
+    .ticker-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes scrollTrack {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .tool-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-main);
+      white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+
+    .tool-badge i {
+      font-size: 1rem;
+      color: var(--neon-cyan);
+    }
+
+    .tool-badge:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+    }
+
+    /* Optimized Sections Spacing */
     section {
-      padding: 6rem 0;
+      padding: 2.2rem 0; /* Reduced vertical padding */
     }
 
     .section-title {
-      font-size: 2.2rem;
-      margin-bottom: 3rem;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem; /* Reduced space below header */
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.8rem;
     }
 
     .section-title::after {
@@ -315,24 +419,24 @@
     .section-num {
       color: var(--neon-cyan);
       font-family: var(--font-mono);
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
 
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.25rem;
     }
 
     .tech-card {
       background: var(--card-bg);
       backdrop-filter: blur(12px);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 2rem;
+      border-radius: 12px;
+      padding: 1.5rem;
       position: relative;
       overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .tech-card::before {
@@ -345,9 +449,9 @@
     }
 
     .tech-card:hover {
-      transform: translateY(-8px);
+      transform: translateY(-5px);
       border-color: rgba(0, 242, 254, 0.4);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     }
 
     .tech-card:hover::before {
@@ -355,20 +459,20 @@
     }
 
     .card-icon {
-      font-size: 2rem;
+      font-size: 1.6rem;
       color: var(--neon-cyan);
-      margin-bottom: 1.2rem;
+      margin-bottom: 0.8rem;
     }
 
     .tech-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 0.8rem;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
     }
 
     .tech-card p {
       color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      margin-bottom: 1.2rem;
     }
 
     .tech-tags {
@@ -377,45 +481,22 @@
       gap: 8px;
     }
 
-    .tag-badge {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      padding: 4px 10px;
-      background: rgba(56, 189, 248, 0.08);
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      color: #38bdf8;
-      border-radius: 6px;
-    }
-
-    /* AdSense Container */
-    .adsense-wrapper {
-      margin: 3rem 0;
-      padding: 1.5rem;
-      background: rgba(15, 23, 42, 0.4);
-      border: 1px dashed var(--card-border);
-      border-radius: 12px;
+    /* Footer - Tightened */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 2rem 0;
+      margin-top: 2.5rem;
       text-align: center;
       color: var(--text-muted);
       font-family: var(--font-mono);
       font-size: 0.85rem;
     }
 
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--card-border);
-      padding: 3rem 0;
-      margin-top: 4rem;
-      text-align: center;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-    }
-
     .footer-links {
       display: flex;
       justify-content: center;
-      gap: 1.5rem;
-      margin-top: 1rem;
+      gap: 1.2rem;
+      margin-top: 0.8rem;
     }
 
     .footer-links a {
@@ -432,11 +513,12 @@
       .hero {
         flex-direction: column;
         text-align: center;
-        padding-top: 120px;
+        padding-top: 100px;
       }
-      .hero-title { font-size: 2.8rem; }
-      .hero-desc { margin: 0 auto 2rem; }
+      .hero-title { font-size: 2.5rem; }
+      .hero-desc { margin: 0 auto 1.5rem; }
       .cta-group { justify-content: center; }
+      .social-links { justify-content: center; }
       .hero-terminal { width: 100%; }
       .nav-links { display: none; }
     }
@@ -456,8 +538,8 @@
       <li><a href="#projects">Stack_Projects</a></li>
       <li><a href="#experience">Timeline</a></li>
       <li><a href="#contact">Contact</a></li>
-      <a href="Blogs/blogs" target="_blank" class="nav-link"><i class="fas fa-blog"></i> <span>Blogs</span></a>
-      <a href="portfolio/index" target="_blank" class="nav-link"><i class="fas fa-portfolio"></i> <span>Portfolio</span></a>
+      <li><a href="Blogs/blogs" target="_blank"<i class="fas fa-blog"></i> <span>Blogs</span></a></li>
+      <li><a href="portfolio/a-n-i-l" target="_blank"<i class="fas fa-portfolio"></i> <span>Portfolio</span></a></li>
     </ul>
   </nav>
 
@@ -477,6 +559,13 @@
         <div class="cta-group">
           <a href="#projects" class="btn-cyber">Explore Stack</a>
           <a href="#contact" class="btn-outline">Initiate Contact</a>
+        </div>
+
+        <!-- Social Media Buttons -->
+        <div class="social-links">
+          <a href="https://facebook.com/your-profile" target="_blank" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://instagram.com/your-profile" target="_blank" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://linkedin.com/in/your-profile" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         </div>
       </div>
 
@@ -501,8 +590,35 @@
         </div>
       </div>
     </section>
-    
-    <!-- Dynamic Projects Section -->
+
+  </div>
+
+  <!-- Continuous Infinite Rotating Tech Stack Slider -->
+  <div class="ticker-section">
+    <div class="ticker-track">
+      <!-- Set 1 -->
+      <div class="tool-badge"><i class="fab fa-html5"></i> HTML5</div>
+      <div class="tool-badge"><i class="fab fa-css3-alt"></i> CSS3</div>
+      <div class="tool-badge"><i class="fab fa-js"></i> JavaScript</div>
+      <div class="tool-badge"><i class="fas fa-fire"></i> Firebase Database</div>
+      <div class="tool-badge"><i class="fab fa-github"></i> GitHub</div>
+      <div class="tool-badge"><i class="fas fa-cloud"></i> Cloudflare</div>
+      <div class="tool-badge"><i class="fas fa-robot"></i> AI Workflows</div>
+
+      <!-- Set 2 (Duplicated) -->
+      <div class="tool-badge"><i class="fab fa-html5"></i> HTML5</div>
+      <div class="tool-badge"><i class="fab fa-css3-alt"></i> CSS3</div>
+      <div class="tool-badge"><i class="fab fa-js"></i> JavaScript</div>
+      <div class="tool-badge"><i class="fas fa-fire"></i> Firebase Database</div>
+      <div class="tool-badge"><i class="fab fa-github"></i> GitHub</div>
+      <div class="tool-badge"><i class="fas fa-cloud"></i> Cloudflare</div>
+      <div class="tool-badge"><i class="fas fa-robot"></i> AI Workflows</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- Projects Section -->
     <section id="projects">
       <h2 class="section-title"><span class="section-num">01.</span> Core Projects & Engineering</h2>
       <div class="cards-grid">
@@ -510,27 +626,27 @@
         <div class="tech-card">
           <div class="card-icon"><i class="fas fa-keyboard"></i></div>
           <h3>Nepali Typing Center</h3>
-          <p>An online web portal providing Unicode typing conversion, PDF-to-Word utility tools, and fast document processing. Integrated with Google Marketplace.</p>
+          <p>An online web portal providing Unicode typing conversion, PDF-to-Word utility tools, and fast document processing.</p>
           <div class="tech-tags">
-          <a href="https://anillama.com.np/nepali-typing/" target="_blank" class="btn">Explore</a>
+            <a href="https://anillama.com.np/nepali-typing/" target="_blank" class="btn-cyber" style="padding: 0.4rem 0.9rem; font-size: 0.8rem;">Explore</a>
           </div>
         </div>
 
         <div class="tech-card">
           <div class="card-icon"><i class="fas fa-gamepad"></i></div>
           <h3>Khaji Chat</h3>
-          <p>Is a modern real-time chat platform built with AI and web technologies. It enables users to connect, share messages, and interact seamlessly with features like instant messaging, media sharing, and smart integrations. Designed for speed, simplicity, and scalability, Khaji Chat delivers a smooth and engaging communication experience.</p>
+          <p>Modern real-time chat platform built with AI & web technologies. Instant messaging and smart integrations.</p>
           <div class="tech-tags">
-          <a href="https://khaji.anillama.com.np" target="_blank" class="btn">Explore</a>
+            <a href="https://khaji.anillama.com.np" target="_blank" class="btn-cyber" style="padding: 0.4rem 0.9rem; font-size: 0.8rem;">Explore</a>
           </div>
         </div>
 
         <div class="tech-card">
           <div class="card-icon"><i class="fas fa-cube"></i></div>
           <h3>3D Typing Game</h3>
-          <p>This is a browser-based web game platform designed for quick and fun gameplay. It offers simple, engaging, and interactive games that users can play instantly without any downloads. Built for smooth performance and accessibility, the platform delivers an enjoyable gaming experience anytime, anywhere.</p>
+          <p>Browser-based interactive game designed for quick and fun gameplay experience without downloads.</p>
           <div class="tech-tags">
-          <a href="https://game.anillama.com.np" target="_blank" class="btn">Explore</a>
+            <a href="https://game.anillama.com.np" target="_blank" class="btn-cyber" style="padding: 0.4rem 0.9rem; font-size: 0.8rem;">Explore</a>
           </div>
         </div>
 
@@ -543,21 +659,21 @@
       <div class="cards-grid">
         
         <div class="tech-card">
-          <span style="color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.85rem;">2022 — PRESENT</span>
-          <h3 style="margin-top: 0.5rem;">Fonepay</h3>
-          <p><strong>Lead - L1 & Social Media Support</strong><br>Optimizing digital payment operations, troubleshooting critical platform issues, and driving service efficiency.</p>
+          <span style="color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.8rem;">2022 — PRESENT</span>
+          <h3 style="margin-top: 0.4rem;">Fonepay</h3>
+          <p><strong>Lead - L1 & Social Media Support</strong><br>Optimizing digital payment operations and driving service efficiency.</p>
         </div>
 
         <div class="tech-card">
-          <span style="color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.85rem;">2024 AWARD</span>
-          <h3 style="margin-top: 0.5rem;">Quarterly Impact Award</h3>
-          <p>Recognized at Fonepay for exceptional operational performance, technical support leadership, and high dedication.</p>
+          <span style="color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.8rem;">2024 AWARD</span>
+          <h3 style="margin-top: 0.4rem;">Quarterly Impact Award</h3>
+          <p>Recognized at Fonepay for exceptional operational performance & technical leadership.</p>
         </div>
 
         <div class="tech-card">
-          <span style="color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.85rem;">CERTIFIED</span>
-          <h3 style="margin-top: 0.5rem;">Cybersecurity (CCEP)</h3>
-          <p>Certified Cybersecurity Educator Professional - trained in building safer digital frameworks and defensive tech networks.</p>
+          <span style="color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.8rem;">CERTIFIED</span>
+          <h3 style="margin-top: 0.4rem;">Cybersecurity (CCEP)</h3>
+          <p>Certified Cybersecurity Educator Professional - building safer digital frameworks.</p>
         </div>
 
       </div>
@@ -566,13 +682,22 @@
     <!-- Contact Section -->
     <section id="contact" style="text-align: center;">
       <h2 class="section-title" style="justify-content: center;"><span class="section-num">03.</span> Connect With Me</h2>
-      <div class="tech-card" style="max-width: 600px; margin: 0 auto;">
-        <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Let's Build Something Tech-Driven</h3>
-        <p>Whether it's technical support, digital service inquiries, or collaborations, feel free to drop a message.</p>
-        <div style="margin: 2rem 0; font-family: var(--font-mono);">
-          <p style="margin-bottom: 0.5rem;"><i class="fas fa-envelope" style="color: var(--neon-cyan);"></i> info@anillama.com.np</p>
+      <div class="tech-card" style="max-width: 580px; margin: 0 auto;">
+        <h3 style="font-size: 1.5rem; margin-bottom: 0.8rem;">Let's Build Something Tech-Driven</h3>
+        <p>Whether it's technical support, digital service inquiries, or collaborations, feel free to reach out.</p>
+        
+        <div style="margin: 1.2rem 0; font-family: var(--font-mono); font-size: 0.9rem;">
+          <p style="margin-bottom: 0.4rem;"><i class="fas fa-envelope" style="color: var(--neon-cyan);"></i> info@anillama.com.np</p>
           <p><i class="fas fa-phone" style="color: var(--neon-cyan);"></i> +977 9865585569</p>
         </div>
+
+        <!-- Social Links in Contact -->
+        <div class="social-links" style="justify-content: center; margin-bottom: 1.2rem;">
+          <a href="https://facebook.com/your-profile" target="_blank" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://instagram.com/your-profile" target="_blank" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://linkedin.com/in/your-profile" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+
         <a href="mailto:info@anillama.com.np" class="btn-cyber">Transmit Email</a>
       </div>
     </section>
@@ -582,6 +707,7 @@
   <!-- Footer -->
   <footer>
     <p>&copy; 2026 Anil Lama. All System Protocols Secured.</p>
+    
     <div class="footer-links">
       <a href="Pages/privacy-policy" target="_blank">Privacy Policy</a> | 
       <a href="Pages/terms-and-conditions" target="_blank">Terms & Conditions</a> | 
@@ -589,7 +715,7 @@
     </div>
   </footer>
 
-  <!-- Interactive Particles Canvas JS Script -->
+  <!-- Canvas Script -->
   <script>
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
@@ -641,7 +767,6 @@
         particlesArray[i].update();
         particlesArray[i].draw();
         
-        // Connect nearby particles with glowing lines
         for (let j = i; j < particlesArray.length; j++) {
           const dx = particlesArray[i].x - particlesArray[j].x;
           const dy = particlesArray[i].y - particlesArray[j].y;
