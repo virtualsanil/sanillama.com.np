@@ -1,14 +1,19 @@
 async function loadCMSBlogs() {
+    console.log("🔥 loadCMSBlogs() STARTED");
+
     try {
+        console.log("🔥 DB:", db);
+
         const blogsRef = collection(db, "blogs");
 
-        // Temporary: status filter हटाइएको
+        console.log("🔥 Collection created:", blogsRef);
+
         const snapshot = await getDocs(blogsRef);
 
-        console.log("Firestore total blogs:", snapshot.size);
+        console.log("🔥 Firestore total blogs:", snapshot.size);
 
         snapshot.forEach((doc) => {
-            console.log("BLOG:", doc.id, doc.data());
+            console.log("🔥 BLOG:", doc.id, doc.data());
         });
 
         const cmsBlogs = [];
@@ -49,10 +54,10 @@ async function loadCMSBlogs() {
         renderCategories();
         renderBlogs();
 
-        console.log("CMS blogs loaded:", cmsBlogs.length);
+        console.log("🔥 CMS blogs loaded:", cmsBlogs.length);
 
     } catch (error) {
-        console.error("Error loading CMS blogs:", error);
+        console.error("❌ Error loading CMS blogs:", error);
 
         renderCategories();
         renderBlogs();
