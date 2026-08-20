@@ -1,11 +1,4 @@
 // ========================================
-// BLOG SCRIPT
-// ========================================
-
-console.log("🔥 BLOG SCRIPT STARTED");
-
-
-// ========================================
 // FIREBASE IMPORT
 // ========================================
 
@@ -18,11 +11,10 @@ import {
 
 
 // ========================================
-// STATIC BLOGS
+// EXISTING STATIC BLOGS
 // ========================================
 
 const staticBlogs = [
-
     {
         id: "static-1",
         title: "Top 10 AI Tools for App Developers",
@@ -36,7 +28,6 @@ const staticBlogs = [
         featured: true,
         source: "static"
     },
-
     {
         id: "static-2",
         title: "AI for App Building",
@@ -50,7 +41,6 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
-
     {
         id: "static-3",
         title: "What Are Large Language Models (LLMs)? A Complete Beginner's Guide",
@@ -64,7 +54,6 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
-
     {
         id: "static-4",
         title: "How Machine Learning Works with Real Examples",
@@ -78,7 +67,6 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
-
     {
         id: "static-5",
         title: "Install and Set Up Nepali Unicode Keyboard on Windows, Mac, Android, and iOS",
@@ -92,7 +80,6 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
-
     {
         id: "static-6",
         title: "AI Automation with n8n – Complete Beginner Guide",
@@ -106,7 +93,6 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
-
     {
         id: "static-7",
         title: "What is AI? A Beginner's Guide",
@@ -120,7 +106,6 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
-
     {
         id: "static-8",
         title: "How AI is Growing in the World",
@@ -134,7 +119,6 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
-
     {
         id: "static-9",
         title: "AI for Data Analysis: A Complete Beginner's Guide & Key Learnings",
@@ -148,7 +132,6 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
-
     {
         id: "static-10",
         title: "Best AI Tools for Students in 2026",
@@ -162,22 +145,23 @@ const staticBlogs = [
         featured: false,
         source: "static"
     }
-
 ];
 
 
 // ========================================
-// BLOG STATE
+// ALL BLOGS
 // ========================================
 
 let blogs = staticBlogs.slice();
 
+
+// ========================================
+// STATE
+// ========================================
+
 let currentCategory = "All";
-
 let searchQuery = "";
-
 let currentSort = "newest";
-
 let bookmarkedIds = new Set();
 
 
@@ -185,79 +169,37 @@ let bookmarkedIds = new Set();
 // DOM ELEMENTS
 // ========================================
 
-const blogGrid =
-    document.getElementById("blogGrid");
-
-const featuredContainer =
-    document.getElementById("featuredContainer");
-
-const categoryContainer =
-    document.getElementById("categoryContainer");
-
-const searchInput =
-    document.getElementById("searchInput");
-
-const clearSearchBtn =
-    document.getElementById("clearSearch");
-
-const sortSelect =
-    document.getElementById("sortSelect");
-
-const articleCount =
-    document.getElementById("articleCount");
-
-const themeToggleBtn =
-    document.getElementById("themeToggle");
-
-const toast =
-    document.getElementById("toast");
+const blogGrid = document.getElementById("blogGrid");
+const featuredContainer = document.getElementById("featuredContainer");
+const categoryContainer = document.getElementById("categoryContainer");
+const searchInput = document.getElementById("searchInput");
+const clearSearchBtn = document.getElementById("clearSearch");
+const sortSelect = document.getElementById("sortSelect");
+const articleCount = document.getElementById("articleCount");
+const themeToggleBtn = document.getElementById("themeToggle");
+const toast = document.getElementById("toast");
 
 
 // ========================================
-// FIREBASE CHECK
+// SCRIPT START
 // ========================================
 
-try {
-
-    console.log(
-        "🔥 Firebase Project:",
-        db.app.options.projectId
-    );
-
-} catch (error) {
-
-    console.error(
-        "❌ Firebase initialization check failed:",
-        error
-    );
-
-}
+console.log("🔥 BLOG SCRIPT STARTED");
+console.log("🔥 Firebase DB:", db);
 
 
 // ========================================
-// DOM READY
+// INITIALIZE
 // ========================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        console.log(
-            "🔥 DOM LOADED"
-        );
-
-        initTheme();
-
-        setupEventListeners();
-
-        renderCategories();
-
-        renderBlogs();
-
-        loadCMSBlogs();
-
-    }
-);
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("🔥 DOM LOADED");
+    initTheme();
+    setupEventListeners();
+    renderCategories();
+    renderBlogs();
+    loadCMSBlogs();
+});
 
 
 // ========================================
@@ -265,606 +207,106 @@ document.addEventListener(
 // ========================================
 
 function setupEventListeners() {
-
     if (searchInput) {
-
-        searchInput.addEventListener(
-            "input",
-            handleSearch
-        );
-
+        searchInput.addEventListener("input", handleSearch);
     }
-
 
     if (clearSearchBtn) {
-
-        clearSearchBtn.addEventListener(
-            "click",
-            clearSearch
-        );
-
+        clearSearchBtn.addEventListener("click", clearSearch);
     }
-
 
     if (sortSelect) {
-
-        sortSelect.addEventListener(
-            "change",
-            function (event) {
-
-                currentSort =
-                    event.target.value;
-
-                renderBlogs();
-
-            }
-        );
-
+        sortSelect.addEventListener("change", function (event) {
+            currentSort = event.target.value;
+            renderBlogs();
+        });
     }
-
 
     if (themeToggleBtn) {
-
-        themeToggleBtn.addEventListener(
-            "click",
-            toggleTheme
-        );
-
+        themeToggleBtn.addEventListener("click", toggleTheme);
     }
-
 }
 
 
 // ========================================
-// LOAD FIRESTORE BLOGS
+// LOAD CMS BLOGS
 // ========================================
 
 async function loadCMSBlogs() {
-
-    console.log(
-        "🔥 loadCMSBlogs() STARTED"
-    );
-
+    console.log("🔥 loadCMSBlogs() STARTED");
 
     try {
+        console.log("🔥 Firebase Project:", db.app.options.projectId);
 
-        const blogsRef =
-            collection(
-                db,
-                "blogs"
-            );
-
-
-        console.log(
-            "🔥 Firestore collection created"
-        );
-
-
-        const snapshot =
-            await getDocs(
-                blogsRef
-            );
-
-
-        console.log(
-            "🔥 Firestore total blogs:",
-            snapshot.size
-        );
-
+        // --------------------------------
+        // FIRESTORE COLLECTION
+        // --------------------------------
+        const blogsRef = collection(db, "blogs");
+        const querySnapshot = await getDocs(blogsRef);
 
         const cmsBlogs = [];
 
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            cmsBlogs.push({
+                id: doc.id,
+                title: data.title || "Untitled Blog",
+                description: data.description || "No description available.",
+                slug: data.slug || doc.id,
+                category: data.category || "General",
+                date: data.date || new Date().toLocaleDateString(),
+                readTime: data.readTime || "5 min read",
+                icon: data.icon || "📄",
+                image: data.image || "",
+                featured: data.featured || false,
+                source: "cms"
+            });
+        });
 
-        snapshot.forEach(
-            function (blogDoc) {
+        console.log(`🔥 Loaded ${cmsBlogs.length} blogs from Firestore`);
 
-                const data =
-                    blogDoc.data();
+        // Merge static and CMS blogs
+        blogs = [...staticBlogs, ...cmsBlogs];
 
-
-                console.log(
-                    "🔥 BLOG FOUND:",
-                    blogDoc.id,
-                    data
-                );
-
-
-                let createdDate;
-
-
-                if (
-                    data.createdAt &&
-                    typeof data.createdAt.toDate ===
-                    "function"
-                ) {
-
-                    createdDate =
-                        data.createdAt.toDate();
-
-                } else if (
-                    data.createdAt
-                ) {
-
-                    createdDate =
-                        new Date(
-                            data.createdAt
-                        );
-
-                } else {
-
-                    createdDate =
-                        new Date();
-
-                }
-
-
-                const blog = {
-
-                    id:
-                        blogDoc.id,
-
-                    title:
-                        data.title ||
-                        "Untitled Blog",
-
-                    description:
-                        data.excerpt ||
-                        "",
-
-                    slug:
-                        data.slug ||
-                        blogDoc.id,
-
-                    category:
-                        data.category ||
-                        "General",
-
-                    tags:
-                        Array.isArray(
-                            data.tags
-                        )
-                            ? data.tags
-                            : [],
-
-                    date:
-                        createdDate.toLocaleDateString(
-                            "en-US",
-                            {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric"
-                            }
-                        ),
-
-                    timestamp:
-                        createdDate.getTime(),
-
-                    readTime:
-                        calculateReadTime(
-                            data.content ||
-                            ""
-                        ),
-
-                    icon:
-                        "📝",
-
-                    image:
-                        data.image ||
-                        "",
-
-                    featured:
-                        false,
-
-                    source:
-                        "cms"
-
-                };
-
-
-                cmsBlogs.push(
-                    blog
-                );
-
-            }
-        );
-
-
-        // ========================================
-        // COMBINE
-        // ========================================
-
-        blogs =
-            cmsBlogs.concat(
-                staticBlogs
-            );
-
-
-        console.log(
-            "🔥 CMS blogs:",
-            cmsBlogs
-        );
-
-
-        console.log(
-            "🔥 TOTAL BLOGS FOR UI:",
-            blogs.length
-        );
-
-
+        // Re-render everything with the new data
         renderCategories();
-
         renderBlogs();
-
-
-        console.log(
-            "✅ CMS blogs loaded:",
-            cmsBlogs.length
-        );
 
     } catch (error) {
-
-        console.error(
-            "❌ FIRESTORE ERROR:",
-            error
-        );
-
-
-        console.error(
-            "❌ ERROR MESSAGE:",
-            error.message
-        );
-
-
-        blogs =
-            staticBlogs.slice();
-
-
-        renderCategories();
-
-        renderBlogs();
-
+        console.error("🔥 Error fetching CMS blogs:", error);
+        showToast("Failed to load newer articles.");
     }
-
 }
 
 
 // ========================================
-// READ TIME
-// ========================================
-
-function calculateReadTime(
-    content
-) {
-
-    if (!content) {
-
-        return "1 min read";
-
-    }
-
-
-    const words =
-        String(content)
-            .trim()
-            .split(/\s+/)
-            .filter(
-                function (word) {
-
-                    return word.length > 0;
-
-                }
-            );
-
-
-    const minutes =
-        Math.max(
-            1,
-            Math.ceil(
-                words.length / 200
-            )
-        );
-
-
-    return (
-        minutes +
-        " min read"
-    );
-
-}
-
-
-// ========================================
-// BLOG TIMESTAMP
-// ========================================
-
-function getBlogTime(
-    blog
-) {
-
-    if (blog.timestamp) {
-
-        return blog.timestamp;
-
-    }
-
-
-    const parsedDate =
-        new Date(
-            blog.date
-        );
-
-
-    if (
-        !isNaN(
-            parsedDate.getTime()
-        )
-    ) {
-
-        return parsedDate.getTime();
-
-    }
-
-
-    return 0;
-
-}
-
-
-// ========================================
-// NEW BLOG
-// ========================================
-
-function isNew(
-    blog
-) {
-
-    if (!blog.timestamp) {
-
-        return false;
-
-    }
-
-
-    const now =
-        Date.now();
-
-
-    const diffDays =
-        (
-            now -
-            blog.timestamp
-        ) /
-        (
-            1000 *
-            60 *
-            60 *
-            24
-        );
-
-
-    return (
-        diffDays >= 0 &&
-        diffDays <= 30
-    );
-
-}
-
-
-// ========================================
-// CATEGORIES
+// RENDER CATEGORIES
 // ========================================
 
 function renderCategories() {
-
-    if (!categoryContainer) {
-
-        return;
-
-    }
-
-
-    const categorySet =
-        new Set();
-
-
-    blogs.forEach(
-        function (blog) {
-
-            categorySet.add(
-                blog.category
-            );
-
-        }
-    );
-
-
-    const categories =
-        ["All"].concat(
-            Array.from(
-                categorySet
-            )
-        );
-
-
-    categoryContainer.innerHTML =
-        categories
-            .map(
-                function (category) {
-
-                    const count =
-                        category === "All"
-                            ? blogs.length
-                            : blogs.filter(
-                                function (blog) {
-
-                                    return (
-                                        blog.category ===
-                                        category
-                                    );
-
-                                }
-                            ).length;
-
-
-                    const activeClass =
-                        category ===
-                        currentCategory
-                            ? "active"
-                            : "";
-
-
-                    return (
-                        '<button ' +
-                        'class="pill ' +
-                        activeClass +
-                        '" ' +
-                        'data-category="' +
-                        escapeHTML(
-                            category
-                        ) +
-                        '">' +
-                        escapeHTML(
-                            category
-                        ) +
-                        " (" +
-                        count +
-                        ")" +
-                        "</button>"
-                    );
-
-                }
-            )
-            .join("");
-
-
-
-    document
-        .querySelectorAll(
-            ".pill"
-        )
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        selectCategory(
-                            button.dataset.category
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-}
-
-
-// ========================================
-// SELECT CATEGORY
-// ========================================
-
-function selectCategory(
-    category
-) {
-
-    currentCategory =
-        category;
-
-    renderCategories();
-
-    renderBlogs();
-
-}
-
-
-// ========================================
-// SEARCH
-// ========================================
-
-function handleSearch(
-    event
-) {
-
-    searchQuery =
-        event.target.value
-            .toLowerCase()
-            .trim();
-
-
-    if (clearSearchBtn) {
-
-        clearSearchBtn.style.display =
-            searchQuery
-                ? "block"
-                : "none";
-
-    }
-
-
-    renderBlogs();
-
-}
-
-
-// ========================================
-// CLEAR SEARCH
-// ========================================
-
-function clearSearch() {
-
-    if (searchInput) {
-
-        searchInput.value =
-            "";
-
-    }
-
-
-    searchQuery =
-        "";
-
-
-    if (clearSearchBtn) {
-
-        clearSearchBtn.style.display =
-            "none";
-
-    }
-
-
-    renderBlogs();
-
-}
-
-
-// ========================================
-// BLOG LINK
-// ========================================
-
-function getBlogLink(
-    blog
-) {
-
-    if (
-        blog.source ===
-        "static"
-    ) {
-
-        return blog.slug;
-
-    }
-
-
-    return (
-        "blog.html?slug=" +
-        encodeURIComponent(
-            blog.slug
-        )
-    );
-
+    if (!categoryContainer) return;
+
+    // Get unique categories
+    const categories = ["All", ...new Set(blogs.map(blog => blog.category))];
+
+    categoryContainer.innerHTML = "";
+
+    categories.forEach(category => {
+        const btn = document.createElement("button");
+        btn.className = `category-btn ${currentCategory === category ? "active" : ""}`;
+        btn.textContent = category;
+        
+        btn.addEventListener("click", () => {
+            currentCategory = category;
+            // Update active class
+            document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            
+            renderBlogs();
+        });
+
+        categoryContainer.appendChild(btn);
+    });
 }
 
 
@@ -873,815 +315,152 @@ function getBlogLink(
 // ========================================
 
 function renderBlogs() {
+    if (!blogGrid) return;
 
-    if (!blogGrid) {
+    // 1. Filter
+    let filteredBlogs = blogs.filter(blog => {
+        const matchesCategory = currentCategory === "All" || blog.category === currentCategory;
+        const matchesSearch = blog.title.toLowerCase().includes(searchQuery) || 
+                              blog.description.toLowerCase().includes(searchQuery);
+        return matchesCategory && matchesSearch;
+    });
 
-        console.error(
-            "❌ blogGrid element not found"
-        );
-
-        return;
-
+    // 2. Sort
+    if (currentSort === "a-z") {
+        filteredBlogs.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (currentSort === "newest") {
+        // Simple reverse for static demo; robust app would parse Date strings
+        filteredBlogs.reverse();
     }
 
-
-    // ========================================
-    // FILTER
-    // ========================================
-
-    let filtered =
-        blogs.filter(
-            function (blog) {
-
-                const matchesCategory =
-                    currentCategory ===
-                    "All" ||
-                    blog.category ===
-                    currentCategory;
-
-
-                const searchableText =
-                    [
-                        blog.title,
-                        blog.description,
-                        blog.category
-                    ]
-                    .concat(
-                        blog.tags || []
-                    )
-                    .join(" ")
-                    .toLowerCase();
-
-
-                const matchesSearch =
-                    searchableText.includes(
-                        searchQuery
-                    );
-
-
-                return (
-                    matchesCategory &&
-                    matchesSearch
-                );
-
-            }
-        );
-
-
-    // ========================================
-    // SORT
-    // ========================================
-
-    filtered.sort(
-        function (a, b) {
-
-            if (
-                currentSort ===
-                "newest"
-            ) {
-
-                return (
-                    getBlogTime(b) -
-                    getBlogTime(a)
-                );
-
-            }
-
-
-            if (
-                currentSort ===
-                "oldest"
-            ) {
-
-                return (
-                    getBlogTime(a) -
-                    getBlogTime(b)
-                );
-
-            }
-
-
-            if (
-                currentSort ===
-                "readTime"
-            ) {
-
-                return (
-                    parseInt(
-                        a.readTime,
-                        10
-                    ) -
-                    parseInt(
-                        b.readTime,
-                        10
-                    )
-                );
-
-            }
-
-
-            if (
-                currentSort ===
-                "az"
-            ) {
-
-                return a.title.localeCompare(
-                    b.title
-                );
-
-            }
-
-
-            return 0;
-
-        }
-    );
-
-
-    // ========================================
-    // FEATURED
-    // ========================================
-
-    let featured =
-        blogs.find(
-            function (blog) {
-
-                return blog.featured;
-
-            }
-        );
-
-
-    if (
-        !featured &&
-        blogs.length > 0
-    ) {
-
-        const sortedBlogs =
-            blogs
-                .slice()
-                .sort(
-                    function (a, b) {
-
-                        return (
-                            getBlogTime(b) -
-                            getBlogTime(a)
-                        );
-
-                    }
-                );
-
-
-        featured =
-            sortedBlogs[0];
-
+    // 3. Separate Featured (Optional logic - only show featured if no search and "All" category)
+    const featuredBlog = filteredBlogs.find(b => b.featured);
+    if (featuredContainer && featuredBlog && currentCategory === "All" && !searchQuery) {
+        featuredContainer.innerHTML = createBlogHTML(featuredBlog, true);
+        featuredContainer.style.display = "block";
+        // Remove featured from grid
+        filteredBlogs = filteredBlogs.filter(b => b.id !== featuredBlog.id);
+    } else if (featuredContainer) {
+        featuredContainer.style.display = "none";
     }
 
-
-    // ========================================
-    // FEATURED SECTION
-    // ========================================
-
-    if (featuredContainer) {
-
-        if (
-            featured &&
-            currentCategory === "All" &&
-            !searchQuery
-        ) {
-
-            let featuredImage = "";
-
-
-            if (featured.image) {
-
-                featuredImage =
-                    '<img ' +
-                    'src="' +
-                    escapeHTML(
-                        featured.image
-                    ) +
-                    '" ' +
-                    'alt="' +
-                    escapeHTML(
-                        featured.title
-                    ) +
-                    '" ' +
-                    'style="' +
-                    'width:100%;' +
-                    'height:100%;' +
-                    'object-fit:cover;' +
-                    'border-radius:inherit;' +
-                    '">';
-
-            } else {
-
-                featuredImage =
-                    featured.icon;
-
-            }
-
-
-            featuredContainer.innerHTML =
-                '<div class="featured-card">' +
-
-                    '<div class="featured-content">' +
-
-                        '<span class="featured-badge">' +
-                            'Featured Post' +
-                        '</span>' +
-
-                        '<h1>' +
-                            escapeHTML(
-                                featured.title
-                            ) +
-                        '</h1>' +
-
-                        '<p>' +
-                            escapeHTML(
-                                featured.description
-                            ) +
-                        '</p>' +
-
-                        '<div class="meta-info">' +
-
-                            '<span>' +
-                                '<i class="fa-regular fa-calendar"></i> ' +
-                                escapeHTML(
-                                    featured.date
-                                ) +
-                            '</span>' +
-
-                            '<span>' +
-                                '<i class="fa-regular fa-clock"></i> ' +
-                                escapeHTML(
-                                    featured.readTime
-                                ) +
-                            '</span>' +
-
-                        '</div>' +
-
-                        '<br>' +
-
-                        '<a href="' +
-                            escapeHTML(
-                                getBlogLink(
-                                    featured
-                                )
-                            ) +
-                            '" ' +
-                            'style="color:var(--accent);font-weight:bold;text-decoration:none;">' +
-
-                            'Read Article ' +
-
-                            '<i class="fa-solid fa-arrow-right"></i>' +
-
-                        '</a>' +
-
-                    '</div>' +
-
-                    '<div class="featured-image-holder">' +
-
-                        featuredImage +
-
-                    '</div>' +
-
-                '</div>';
-
-
-            featuredContainer.style.display =
-                "block";
-
-        } else {
-
-            featuredContainer.style.display =
-                "none";
-
-        }
-
-    }
-
-
-    // ========================================
-    // COUNT
-    // ========================================
-
-    if (articleCount) {
-
-        articleCount.textContent =
-            "Showing " +
-            filtered.length +
-            " article" +
-            (
-                filtered.length !== 1
-                    ? "s"
-                    : ""
-            );
-
-    }
-
-
-    // ========================================
-    // EMPTY
-    // ========================================
-
-    if (
-        filtered.length === 0
-    ) {
-
-        blogGrid.innerHTML =
-            '<div style="' +
-            'grid-column:1/-1;' +
-            'text-align:center;' +
-            'padding:40px;' +
-            'color:var(--text-secondary);' +
-            '">' +
-            'No articles found matching your query.' +
-            '</div>';
-
-
-        return;
-
-    }
-
-
-    // ========================================
-    // BLOG CARDS
-    // ========================================
-
-    blogGrid.innerHTML =
-        filtered
-            .map(
-                function (blog) {
-
-                    let imageHTML = "";
-
-
-                    if (blog.image) {
-
-                        imageHTML =
-                            '<img ' +
-                            'src="' +
-                            escapeHTML(
-                                blog.image
-                            ) +
-                            '" ' +
-                            'alt="' +
-                            escapeHTML(
-                                blog.title
-                            ) +
-                            '" ' +
-                            'style="' +
-                            'width:100%;' +
-                            'height:180px;' +
-                            'object-fit:cover;' +
-                            'border-radius:12px;' +
-                            'margin-bottom:15px;' +
-                            '">';
-
-                    }
-
-
-                    let newTag = "";
-
-
-                    if (
-                        isNew(blog)
-                    ) {
-
-                        newTag =
-                            '<span class="new-tag">' +
-                            'NEW' +
-                            '</span>';
-
-                    }
-
-
-                    const bookmarkIcon =
-                        bookmarkedIds.has(
-                            blog.id
-                        )
-                            ? "fa-solid"
-                            : "fa-regular";
-
-
-                    const blogLink =
-                        getBlogLink(
-                            blog
-                        );
-
-
-                    const iconHTML =
-                        blog.image
-                            ? ""
-                            : blog.icon + " ";
-
-
-                    return (
-
-                        '<article class="blog-card">' +
-
-                            '<div>' +
-
-                                imageHTML +
-
-                                '<div class="card-top">' +
-
-                                    '<div>' +
-
-                                        '<span class="category-badge">' +
-
-                                            escapeHTML(
-                                                blog.category
-                                            ) +
-
-                                        '</span>' +
-
-                                        newTag +
-
-                                    '</div>' +
-
-                                    '<div class="card-actions">' +
-
-                                        '<button ' +
-                                        'class="bookmark-btn" ' +
-                                        'data-id="' +
-                                        escapeHTML(
-                                            blog.id
-                                        ) +
-                                        '" ' +
-                                        'title="Bookmark">' +
-
-                                            '<i class="' +
-                                            bookmarkIcon +
-                                            ' fa-bookmark"></i>' +
-
-                                        '</button>' +
-
-                                        '<button ' +
-                                        'class="share-btn" ' +
-                                        'data-title="' +
-                                        escapeHTML(
-                                            blog.title
-                                        ) +
-                                        '" ' +
-                                        'data-url="' +
-                                        escapeHTML(
-                                            blogLink
-                                        ) +
-                                        '" ' +
-                                        'title="Share">' +
-
-                                            '<i class="fa-solid fa-share-nodes"></i>' +
-
-                                        '</button>' +
-
-                                    '</div>' +
-
-                                '</div>' +
-
-                                '<h3>' +
-
-                                    iconHTML +
-
-                                    escapeHTML(
-                                        blog.title
-                                    ) +
-
-                                '</h3>' +
-
-                                '<p>' +
-
-                                    escapeHTML(
-                                        blog.description
-                                    ) +
-
-                                '</p>' +
-
-                            '</div>' +
-
-                            '<div class="card-footer">' +
-
-                                '<div>' +
-
-                                    '<span>' +
-
-                                        '<i class="fa-regular fa-calendar"></i> ' +
-
-                                        escapeHTML(
-                                            blog.date
-                                        ) +
-
-                                    '</span>' +
-
-                                    '<span style="margin-left:10px;">' +
-
-                                        '<i class="fa-regular fa-clock"></i> ' +
-
-                                        escapeHTML(
-                                            blog.readTime
-                                        ) +
-
-                                    '</span>' +
-
-                                '</div>' +
-
-                                '<a href="' +
-                                    escapeHTML(
-                                        blogLink
-                                    ) +
-                                    '" ' +
-                                    'style="color:var(--accent);font-weight:700;text-decoration:none;font-size:.9rem;">' +
-
-                                    'Read ' +
-
-                                    '<i class="fa-solid fa-arrow-right"></i>' +
-
-                                '</a>' +
-
-                            '</div>' +
-
-                        '</article>'
-
-                    );
-
-                }
-            )
-            .join("");
-
-
-    setupCardActions();
-
-}
-
-
-// ========================================
-// CARD ACTIONS
-// ========================================
-
-function setupCardActions() {
-
-    document
-        .querySelectorAll(
-            ".bookmark-btn"
-        )
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        toggleBookmark(
-                            button.dataset.id
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-    document
-        .querySelectorAll(
-            ".share-btn"
-        )
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        shareArticle(
-                            button.dataset.title,
-                            button.dataset.url
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-}
-
-
-// ========================================
-// BOOKMARK
-// ========================================
-
-function toggleBookmark(
-    id
-) {
-
-    if (
-        bookmarkedIds.has(id)
-    ) {
-
-        bookmarkedIds.delete(
-            id
-        );
-
+    // 4. Render Grid
+    blogGrid.innerHTML = "";
+    
+    if (filteredBlogs.length === 0) {
+        blogGrid.innerHTML = `<p class="no-results">No articles found matching your criteria.</p>`;
     } else {
-
-        bookmarkedIds.add(
-            id
-        );
-
+        filteredBlogs.forEach(blog => {
+            blogGrid.innerHTML += createBlogHTML(blog, false);
+        });
     }
 
+    // 5. Update Count
+    if (articleCount) {
+        const totalShowing = filteredBlogs.length + (featuredContainer && featuredContainer.style.display === "block" ? 1 : 0);
+        articleCount.textContent = `${totalShowing} Article${totalShowing !== 1 ? 's' : ''}`;
+    }
+}
 
+
+// ========================================
+// HTML TEMPLATE GENERATOR
+// ========================================
+
+function createBlogHTML(blog, isFeatured) {
+    const isBookmarked = bookmarkedIds.has(blog.id);
+    const bookmarkIcon = isBookmarked ? "★" : "☆";
+
+    return `
+        <article class="card ${isFeatured ? 'card-featured' : ''}" data-id="${blog.id}">
+            <div class="card-icon">${blog.icon}</div>
+            <div class="card-content">
+                <span class="badge category-badge">${blog.category}</span>
+                <h3><a href="/blog/${blog.slug}">${blog.title}</a></h3>
+                <p>${blog.description}</p>
+                <div class="card-meta">
+                    <span>${blog.date}</span> • <span>${blog.readTime}</span>
+                </div>
+            </div>
+            <button class="bookmark-btn ${isBookmarked ? 'active' : ''}" onclick="toggleBookmark('${blog.id}')" title="Bookmark Article">
+                ${bookmarkIcon}
+            </button>
+        </article>
+    `;
+}
+
+
+// ========================================
+// SEARCH & ACTIONS
+// ========================================
+
+function handleSearch(e) {
+    searchQuery = e.target.value.toLowerCase();
+    
+    if (clearSearchBtn) {
+        clearSearchBtn.style.display = searchQuery.length > 0 ? "block" : "none";
+    }
+    
     renderBlogs();
+}
 
+function clearSearch() {
+    searchInput.value = "";
+    searchQuery = "";
+    clearSearchBtn.style.display = "none";
+    renderBlogs();
 }
 
 
 // ========================================
-// SHARE
+// BOOKMARKS & TOAST
 // ========================================
 
-function shareArticle(
-    title,
-    url
-) {
-
-    const fullURL =
-        new URL(
-            url,
-            window.location.href
-        ).href;
-
-
-    if (
-        navigator.clipboard
-    ) {
-
-        navigator.clipboard.writeText(
-            fullURL
-        );
-
+// Expose to window so inline onclick can access it
+window.toggleBookmark = function(id) {
+    if (bookmarkedIds.has(id)) {
+        bookmarkedIds.delete(id);
+        showToast("Removed from bookmarks");
+    } else {
+        bookmarkedIds.add(id);
+        showToast("Added to bookmarks!");
     }
+    renderBlogs(); // Re-render to update the icon states
+}
 
-
-    if (toast) {
-
-        toast.textContent =
-            "Link copied for \"" +
-            String(title).substring(
-                0,
-                20
-            ) +
-            "...\" 🚀";
-
-
-        toast.classList.add(
-            "show"
-        );
-
-
-        setTimeout(
-            function () {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            3000
-        );
-
-    }
-
+function showToast(message) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("show");
+    
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
 }
 
 
 // ========================================
-// THEME
+// THEME HANDLING
 // ========================================
 
 function initTheme() {
-
-    const savedTheme =
-        localStorage.getItem(
-            "theme"
-        ) ||
-        "dark";
-
-
-    document.documentElement.setAttribute(
-        "data-theme",
-        savedTheme
-    );
-
-
-    updateThemeIcon(
-        savedTheme
-    );
-
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    
+    if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+        document.body.classList.add("dark-mode");
+        if (themeToggleBtn) themeToggleBtn.textContent = "☀️";
+    } else {
+        if (themeToggleBtn) themeToggleBtn.textContent = "🌙";
+    }
 }
-
-
-// ========================================
-// TOGGLE THEME
-// ========================================
 
 function toggleTheme() {
-
-    const currentTheme =
-        document.documentElement.getAttribute(
-            "data-theme"
-        );
-
-
-    const newTheme =
-        currentTheme === "dark"
-            ? "light"
-            : "dark";
-
-
-    document.documentElement.setAttribute(
-        "data-theme",
-        newTheme
-    );
-
-
-    localStorage.setItem(
-        "theme",
-        newTheme
-    );
-
-
-    updateThemeIcon(
-        newTheme
-    );
-
-}
-
-
-// ========================================
-// THEME ICON
-// ========================================
-
-function updateThemeIcon(
-    theme
-) {
-
-    if (!themeToggleBtn) {
-
-        return;
-
+    document.body.classList.toggle("dark-mode");
+    const isDark = document.body.classList.contains("dark-mode");
+    
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    if (themeToggleBtn) {
+        themeToggleBtn.textContent = isDark ? "☀️" : "🌙";
     }
-
-
-    if (
-        theme === "dark"
-    ) {
-
-        themeToggleBtn.innerHTML =
-            '<i class="fa-solid fa-sun"></i>';
-
-    } else {
-
-        themeToggleBtn.innerHTML =
-            '<i class="fa-solid fa-moon"></i>';
-
-    }
-
 }
-
-
-// ========================================
-// ESCAPE HTML
-// ========================================
-
-function escapeHTML(
-    value
-) {
-
-    const div =
-        document.createElement(
-            "div"
-        );
-
-
-    div.textContent =
-        value === null ||
-        value === undefined
-            ? ""
-            : String(value);
-
-
-    return div.innerHTML;
-
-}
-
-
-// ========================================
-// END
-// ========================================
-
-console.log(
-    "✅ BLOG SCRIPT PARSED SUCCESSFULLY"
-);
