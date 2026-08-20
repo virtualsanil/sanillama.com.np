@@ -1,1 +1,170 @@
-<P>Anil Lama</P>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login | Anil Lama CMS</title>
+
+    <link rel="stylesheet" href="admin.css">
+
+    <style>
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo h1 {
+            margin-bottom: 8px;
+        }
+
+        .login-logo p {
+            color: #6b7280;
+        }
+
+        .login-box .primary-btn {
+            width: 100%;
+        }
+
+        #loginMessage {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-page">
+
+        <div class="login-box">
+
+            <div class="login-logo">
+                <h1>🚀 Anil Lama</h1>
+                <p>Blog CMS Admin Panel</p>
+            </div>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+                    <label for="email">Admin Email</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="primary-btn" id="loginBtn">
+                    Login to Dashboard
+                </button>
+
+                <div id="loginMessage"></div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { auth } from "../js/firebase-config.js";
+
+        import {
+            signInWithEmailAndPassword,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+        // Already logged in?
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.location.href = "dashboard.html";
+            }
+        });
+
+
+        const loginForm = document.getElementById("loginForm");
+        const loginBtn = document.getElementById("loginBtn");
+        const loginMessage = document.getElementById("loginMessage");
+
+
+        loginForm.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+
+            loginBtn.disabled = true;
+            loginBtn.textContent = "Logging in...";
+            loginMessage.textContent = "";
+
+            try {
+
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+                loginMessage.style.color = "green";
+                loginMessage.textContent = "Login successful!";
+
+                window.location.href = "dashboard.html";
+
+            } catch (error) {
+
+                console.error(error);
+
+                loginMessage.style.color = "red";
+
+                if (error.code === "auth/invalid-credential") {
+                    loginMessage.textContent =
+                        "Incorrect email or password.";
+                } else {
+                    loginMessage.textContent =
+                        error.message;
+                }
+
+                loginBtn.disabled = false;
+                loginBtn.textContent = "Login to Dashboard";
+
+            }
+
+        });
+    </script>
+
+</body>
+</html>
