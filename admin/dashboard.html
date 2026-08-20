@@ -1,1 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Blog Dashboard | Anil Lama</title>
+
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <h2>Anil Lama</h2>
+                <span>Blog CMS</span>
+            </div>
+
+            <nav>
+                <a href="dashboard.html" class="active">
+                    📊 Dashboard
+                </a>
+
+                <a href="editor.html">
+                    ✍️ Add New Blog
+                </a>
+
+                <a href="../index.html" target="_blank">
+                    🌐 View Website
+                </a>
+            </nav>
+
+            <button id="logoutBtn" class="logout-btn">
+                🚪 Logout
+            </button>
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <div class="topbar">
+                <div>
+                    <h1>Blog Dashboard</h1>
+                    <p>Manage your blog posts easily.</p>
+                </div>
+
+                <a href="editor.html" class="add-blog-btn">
+                    + Add New Blog
+                </a>
+            </div>
+
+
+            <!-- Statistics -->
+            <div class="stats">
+
+                <div class="stat-card">
+                    <span>Total Blogs</span>
+                    <h2 id="totalBlogs">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <span>Published</span>
+                    <h2 id="publishedBlogs">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <span>Drafts</span>
+                    <h2 id="draftBlogs">0</h2>
+                </div>
+
+            </div>
+
+
+            <!-- Blog List -->
+            <section class="blog-section">
+
+                <div class="section-header">
+                    <h2>All Blog Posts</h2>
+
+                    <button id="refreshBtn" class="refresh-btn">
+                        ↻ Refresh
+                    </button>
+                </div>
+
+                <div id="loading" class="loading">
+                    Loading blogs...
+                </div>
+
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <h3>No blog posts yet</h3>
+                    <p>Create your first blog post from the editor.</p>
+
+                    <a href="editor.html" class="add-blog-btn">
+                        + Create First Blog
+                    </a>
+                </div>
+
+                <div id="blogList" class="blog-list"></div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- Firebase -->
+    <script type="module" src="../js/firebase-config.js"></script>
+
+    <!-- Admin JS -->
+    <script type="module" src="admin.js"></script>
+
+</body>
+</html>
