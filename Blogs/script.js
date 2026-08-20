@@ -3,7 +3,6 @@
 // ========================================
 
 import { db } from "../js/firebase-config.js";
-
 import {
     collection,
     getDocs
@@ -149,25 +148,14 @@ const staticBlogs = [
 
 
 // ========================================
-// ALL BLOGS
+// STATE & DOM
 // ========================================
 
 let blogs = staticBlogs.slice();
-
-
-// ========================================
-// STATE
-// ========================================
-
 let currentCategory = "All";
 let searchQuery = "";
 let currentSort = "newest";
 let bookmarkedIds = new Set();
-
-
-// ========================================
-// DOM ELEMENTS
-// ========================================
 
 const blogGrid = document.getElementById("blogGrid");
 const featuredContainer = document.getElementById("featuredContainer");
@@ -181,19 +169,10 @@ const toast = document.getElementById("toast");
 
 
 // ========================================
-// SCRIPT START
-// ========================================
-
-console.log("🔥 BLOG SCRIPT STARTED");
-console.log("🔥 Firebase DB:", db);
-
-
-// ========================================
-// INITIALIZE
+// INITIALIZE & EVENTS
 // ========================================
 
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("🔥 DOM LOADED");
     initTheme();
     setupEventListeners();
     renderCategories();
@@ -201,30 +180,16 @@ document.addEventListener("DOMContentLoaded", function () {
     loadCMSBlogs();
 });
 
-
-// ========================================
-// EVENT LISTENERS
-// ========================================
-
 function setupEventListeners() {
-    if (searchInput) {
-        searchInput.addEventListener("input", handleSearch);
-    }
-
-    if (clearSearchBtn) {
-        clearSearchBtn.addEventListener("click", clearSearch);
-    }
-
+    if (searchInput) searchInput.addEventListener("input", handleSearch);
+    if (clearSearchBtn) clearSearchBtn.addEventListener("click", clearSearch);
     if (sortSelect) {
         sortSelect.addEventListener("change", function (event) {
             currentSort = event.target.value;
             renderBlogs();
         });
     }
-
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener("click", toggleTheme);
-    }
+    if (themeToggleBtn) themeToggleBtn.addEventListener("click", toggleTheme);
 }
 
 
@@ -233,17 +198,9 @@ function setupEventListeners() {
 // ========================================
 
 async function loadCMSBlogs() {
-    console.log("🔥 loadCMSBlogs() STARTED");
-
     try {
-        console.log("🔥 Firebase Project:", db.app.options.projectId);
-
-        // --------------------------------
-        // FIRESTORE COLLECTION
-        // --------------------------------
         const blogsRef = collection(db, "blogs");
         const querySnapshot = await getDocs(blogsRef);
-
         const cmsBlogs = [];
 
         querySnapshot.forEach((doc) => {
@@ -259,49 +216,45 @@ async function loadCMSBlogs() {
                 icon: data.icon || "📄",
                 image: data.image || "",
                 featured: data.featured || false,
+                isNew: true,
                 source: "cms"
             });
         });
 
-        console.log(`🔥 Loaded ${cmsBlogs.length} blogs from Firestore`);
-
-        // Merge static and CMS blogs
         blogs = [...staticBlogs, ...cmsBlogs];
-
-        // Re-render everything with the new data
         renderCategories();
         renderBlogs();
-
     } catch (error) {
         console.error("🔥 Error fetching CMS blogs:", error);
-        showToast("Failed to load newer articles.");
     }
 }
 
 
 // ========================================
-// RENDER CATEGORIES
+// CATEGORIES WITH COUNTS
 // ========================================
 
 function renderCategories() {
     if (!categoryContainer) return;
 
-    // Get unique categories
-    const categories = ["All", ...new Set(blogs.map(blog => blog.category))];
+    const categoryCounts = {};
+    blogs.forEach(blog => {
+        categoryCounts[blog.category] = (categoryCounts[blog.category] || 0) + 1;
+    });
 
+    const categories = ["All", ...Object.keys(categoryCounts)];
     categoryContainer.innerHTML = "";
 
     categories.forEach(category => {
+        const count = category === "All" ? blogs.length : categoryCounts[category];
         const btn = document.createElement("button");
         btn.className = `category-btn ${currentCategory === category ? "active" : ""}`;
-        btn.textContent = category;
-        
+        btn.textContent = `${category} (${count})`;
+
         btn.addEventListener("click", () => {
             currentCategory = category;
-            // Update active class
             document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
-            
             renderBlogs();
         });
 
@@ -317,107 +270,125 @@ function renderCategories() {
 function renderBlogs() {
     if (!blogGrid) return;
 
-    // 1. Filter
     let filteredBlogs = blogs.filter(blog => {
         const matchesCategory = currentCategory === "All" || blog.category === currentCategory;
-        const matchesSearch = blog.title.toLowerCase().includes(searchQuery) || 
-                              blog.description.toLowerCase().includes(searchQuery);
+        const matchesSearch = blog.title.toLowerCase().includes(searchQuery) ||
+            blog.description.toLowerCase().includes(searchQuery);
         return matchesCategory && matchesSearch;
     });
 
-    // 2. Sort
     if (currentSort === "a-z") {
         filteredBlogs.sort((a, b) => a.title.localeCompare(b.title));
     } else if (currentSort === "newest") {
-        // Simple reverse for static demo; robust app would parse Date strings
         filteredBlogs.reverse();
     }
 
-    // 3. Separate Featured (Optional logic - only show featured if no search and "All" category)
+    // Featured Blog Handling
     const featuredBlog = filteredBlogs.find(b => b.featured);
     if (featuredContainer && featuredBlog && currentCategory === "All" && !searchQuery) {
-        featuredContainer.innerHTML = createBlogHTML(featuredBlog, true);
+        featuredContainer.innerHTML = createFeaturedHTML(featuredBlog);
         featuredContainer.style.display = "block";
-        // Remove featured from grid
         filteredBlogs = filteredBlogs.filter(b => b.id !== featuredBlog.id);
     } else if (featuredContainer) {
         featuredContainer.style.display = "none";
     }
 
-    // 4. Render Grid
+    // Render Grid Cards
     blogGrid.innerHTML = "";
-    
     if (filteredBlogs.length === 0) {
         blogGrid.innerHTML = `<p class="no-results">No articles found matching your criteria.</p>`;
     } else {
         filteredBlogs.forEach(blog => {
-            blogGrid.innerHTML += createBlogHTML(blog, false);
+            blogGrid.innerHTML += createCardHTML(blog);
         });
     }
 
-    // 5. Update Count
     if (articleCount) {
         const totalShowing = filteredBlogs.length + (featuredContainer && featuredContainer.style.display === "block" ? 1 : 0);
-        articleCount.textContent = `${totalShowing} Article${totalShowing !== 1 ? 's' : ''}`;
+        articleCount.textContent = `Showing ${totalShowing} articles`;
     }
 }
 
 
 // ========================================
-// HTML TEMPLATE GENERATOR
+// HTML TEMPLATE GENERATORS
 // ========================================
 
-function createBlogHTML(blog, isFeatured) {
+// 1. Featured Post Template (Screenshot Layout)
+function createFeaturedHTML(blog) {
+    return `
+        <div class="featured-card">
+            <div class="featured-content">
+                <span class="badge badge-featured">FEATURED POST</span>
+                <h2 class="featured-title">${blog.title}</h2>
+                <p class="featured-desc">${blog.description}</p>
+                <div class="featured-meta">
+                    <span>📅 ${blog.date}</span>
+                    <span>⏱️ ${blog.readTime}</span>
+                </div>
+                <a href="blog.html?slug=${blog.slug}" class="read-btn-link">Read Article →</a>
+            </div>
+            <div class="featured-image-box">
+                <span class="featured-icon">${blog.icon}</span>
+            </div>
+        </div>
+    `;
+}
+
+// 2. Regular Grid Card Template (Screenshot Layout)
+function createCardHTML(blog) {
     const isBookmarked = bookmarkedIds.has(blog.id);
-    const bookmarkIcon = isBookmarked ? "★" : "☆";
+    const bookmarkIcon = isBookmarked ? "★" : "🔖";
 
     return `
-        <article class="card ${isFeatured ? 'card-featured' : ''}" data-id="${blog.id}">
-            <div class="card-icon">${blog.icon}</div>
-            <div class="card-content">
-                <span class="badge category-badge">${blog.category}</span>
-                <h3><a href="/blog/${blog.slug}">${blog.title}</a></h3>
-                <p>${blog.description}</p>
-                <div class="card-meta">
-                    <span>${blog.date}</span> • <span>${blog.readTime}</span>
+        <article class="card" data-id="${blog.id}">
+            <div class="card-header">
+                <div class="badge-group">
+                    <span class="badge category-badge">${blog.category}</span>
+                    <span class="badge new-badge">NEW</span>
+                </div>
+                <div class="card-actions">
+                    <button class="icon-btn" onclick="toggleBookmark('${blog.id}')" title="Bookmark">${bookmarkIcon}</button>
+                    <button class="icon-btn" onclick="shareArticle('${blog.slug}')" title="Share">🔗</button>
                 </div>
             </div>
-            <button class="bookmark-btn ${isBookmarked ? 'active' : ''}" onclick="toggleBookmark('${blog.id}')" title="Bookmark Article">
-                ${bookmarkIcon}
-            </button>
+
+            <h3 class="card-title">
+                <span class="title-icon">${blog.icon}</span> ${blog.title}
+            </h3>
+
+            <p class="card-description">${blog.description}</p>
+
+            <div class="card-footer">
+                <div class="card-meta">
+                    <span>📅 ${blog.date}</span>
+                    <span>⏱️ ${blog.readTime}</span>
+                </div>
+                <a href="blog.html?slug=${blog.slug}" class="read-link">Read →</a>
+            </div>
         </article>
     `;
 }
 
 
 // ========================================
-// SEARCH & ACTIONS
+// SEARCH & INTERACTIONS
 // ========================================
 
 function handleSearch(e) {
     searchQuery = e.target.value.toLowerCase();
-    
-    if (clearSearchBtn) {
-        clearSearchBtn.style.display = searchQuery.length > 0 ? "block" : "none";
-    }
-    
+    if (clearSearchBtn) clearSearchBtn.style.display = searchQuery.length > 0 ? "block" : "none";
     renderBlogs();
 }
 
 function clearSearch() {
-    searchInput.value = "";
+    if (searchInput) searchInput.value = "";
     searchQuery = "";
-    clearSearchBtn.style.display = "none";
+    if (clearSearchBtn) clearSearchBtn.style.display = "none";
     renderBlogs();
 }
 
-
-// ========================================
-// BOOKMARKS & TOAST
-// ========================================
-
-// Expose to window so inline onclick can access it
-window.toggleBookmark = function(id) {
+window.toggleBookmark = function (id) {
     if (bookmarkedIds.has(id)) {
         bookmarkedIds.delete(id);
         showToast("Removed from bookmarks");
@@ -425,40 +396,48 @@ window.toggleBookmark = function(id) {
         bookmarkedIds.add(id);
         showToast("Added to bookmarks!");
     }
-    renderBlogs(); // Re-render to update the icon states
-}
+    renderBlogs();
+};
+
+window.shareArticle = function (slug) {
+    const url = `${window.location.origin}/blog.html?slug=${slug}`;
+    navigator.clipboard.writeText(url);
+    showToast("Link copied to clipboard!");
+};
 
 function showToast(message) {
     if (!toast) return;
     toast.textContent = message;
     toast.classList.add("show");
-    
-    setTimeout(() => {
-        toast.classList.remove("show");
-    }, 3000);
+    setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
 
 // ========================================
-// THEME HANDLING
+// THEME HANDLING (FIXED)
 // ========================================
 
 function initTheme() {
     const savedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    
+
     if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
-        document.body.classList.add("dark-mode");
+        document.body.classList.add("dark-mode", "dark");
+        document.documentElement.classList.add("dark-mode", "dark");
         if (themeToggleBtn) themeToggleBtn.textContent = "☀️";
     } else {
+        document.body.classList.remove("dark-mode", "dark");
+        document.documentElement.classList.remove("dark-mode", "dark");
         if (themeToggleBtn) themeToggleBtn.textContent = "🌙";
     }
 }
 
 function toggleTheme() {
-    document.body.classList.toggle("dark-mode");
-    const isDark = document.body.classList.contains("dark-mode");
-    
+    const isDark = document.body.classList.toggle("dark-mode");
+    document.body.classList.toggle("dark", isDark);
+    document.documentElement.classList.toggle("dark-mode", isDark);
+    document.documentElement.classList.toggle("dark", isDark);
+
     localStorage.setItem("theme", isDark ? "dark" : "light");
     if (themeToggleBtn) {
         themeToggleBtn.textContent = isDark ? "☀️" : "🌙";
