@@ -1,1 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blog Editor | Anil Lama</title>
+
+    <link rel="stylesheet" href="admin.css">
+
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+                <h2>Anil Lama</h2>
+                <span>Blog CMS</span>
+            </div>
+
+            <nav>
+
+                <a href="dashboard.html">
+                    📊 Dashboard
+                </a>
+
+                <a href="editor.html" class="active">
+                    ✍️ Add New Blog
+                </a>
+
+                <a href="../index.html" target="_blank">
+                    🌐 View Website
+                </a>
+
+            </nav>
+
+            <button id="logoutBtn" class="logout-btn">
+                🚪 Logout
+            </button>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <div class="topbar">
+
+                <div>
+                    <h1 id="editorTitle">Create New Blog</h1>
+                    <p>Create and publish your blog post.</p>
+                </div>
+
+                <a href="dashboard.html" class="back-btn">
+                    ← Back to Dashboard
+                </a>
+
+            </div>
+
+
+            <form id="blogForm" class="blog-form">
+
+                <!-- Basic Information -->
+
+                <div class="form-card">
+
+                    <h2>Basic Information</h2>
+
+
+                    <div class="form-group">
+
+                        <label for="title">
+                            Blog Title *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            placeholder="Enter your blog title"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="slug">
+                            URL Slug *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="slug"
+                            placeholder="auto-generated-from-title"
+                            required
+                        >
+
+                        <small>
+                            Example:
+                            your-blog-title
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="category">
+                                Category
+                            </label>
+
+                            <input
+                                type="text"
+                                id="category"
+                                placeholder="AI, Technology, Web Development"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="status">
+                                Status *
+                            </label>
+
+                            <select id="status">
+
+                                <option value="draft">
+                                    Draft
+                                </option>
+
+                                <option value="published">
+                                    Published
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="tags">
+                            Tags
+                        </label>
+
+                        <input
+                            type="text"
+                            id="tags"
+                            placeholder="AI, ChatGPT, Technology"
+                        >
+
+                        <small>
+                            Separate tags using commas.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Cover Image -->
+
+                <div class="form-card">
+
+                    <h2>Cover Image</h2>
+
+
+                    <div class="form-group">
+
+                        <label for="coverImage">
+                            Upload Cover Image
+                        </label>
+
+                        <input
+                            type="file"
+                            id="coverImage"
+                            accept="image/jpeg,image/png,image/webp"
+                        >
+
+                        <small>
+                            Supported: JPG, PNG, WEBP. Maximum recommended size: 5MB.
+                        </small>
+
+                    </div>
+
+
+                    <div id="imagePreviewContainer" class="image-preview-container">
+
+                        <img
+                            id="imagePreview"
+                            src=""
+                            alt="Image Preview"
+                            style="display: none;"
+                        >
+
+                    </div>
+
+
+                    <div id="uploadStatus" class="upload-status"></div>
+
+                </div>
+
+
+                <!-- Short Description -->
+
+                <div class="form-card">
+
+                    <h2>Blog Description</h2>
+
+
+                    <div class="form-group">
+
+                        <label for="excerpt">
+                            Short Description *
+                        </label>
+
+                        <textarea
+                            id="excerpt"
+                            rows="4"
+                            placeholder="Write a short description about your blog..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Blog Content -->
+
+                <div class="form-card">
+
+                    <h2>Blog Content</h2>
+
+                    <div class="form-group">
+
+                        <label for="content">
+                            Full Blog Content *
+                        </label>
+
+                        <textarea
+                            id="content"
+                            rows="18"
+                            placeholder="Write your complete blog content here..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SEO -->
+
+                <div class="form-card">
+
+                    <h2>SEO Settings</h2>
+
+
+                    <div class="form-group">
+
+                        <label for="metaTitle">
+                            SEO Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="metaTitle"
+                            placeholder="SEO title for Google"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="metaDescription">
+                            Meta Description
+                        </label>
+
+                        <textarea
+                            id="metaDescription"
+                            rows="4"
+                            placeholder="Short description for Google search results"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Actions -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        id="saveDraftBtn"
+                        class="secondary-btn"
+                    >
+                        💾 Save Draft
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        id="publishBtn"
+                        class="primary-btn"
+                    >
+                        🚀 Publish Blog
+                    </button>
+
+                </div>
+
+
+                <div id="formMessage" class="form-message"></div>
+
+            </form>
+
+        </main>
+
+    </div>
+
+
+    <script type="module" src="../js/firebase-config.js"></script>
+    <script type="module" src="admin.js"></script>
+
+</body>
+</html>
