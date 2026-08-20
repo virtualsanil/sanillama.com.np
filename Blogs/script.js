@@ -1,4 +1,3 @@
-```js
 // ========================================
 // FIREBASE IMPORT
 // ========================================
@@ -29,6 +28,7 @@ const staticBlogs = [
         featured: true,
         source: "static"
     },
+
     {
         id: "static-2",
         title: "AI for App Building",
@@ -42,6 +42,7 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
+
     {
         id: "static-3",
         title: "What Are Large Language Models (LLMs)? A Complete Beginner's Guide",
@@ -55,6 +56,7 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
+
     {
         id: "static-4",
         title: "How Machine Learning Works with Real Examples",
@@ -68,6 +70,7 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
+
     {
         id: "static-5",
         title: "Install and Set Up Nepali Unicode Keyboard on Windows, Mac, Android, and iOS",
@@ -81,6 +84,7 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
+
     {
         id: "static-6",
         title: "AI Automation with n8n – Complete Beginner Guide",
@@ -94,6 +98,7 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
+
     {
         id: "static-7",
         title: "What is AI? A Beginner's Guide",
@@ -107,6 +112,7 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
+
     {
         id: "static-8",
         title: "How AI is Growing in the World",
@@ -120,6 +126,7 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
+
     {
         id: "static-9",
         title: "AI for Data Analysis: A Complete Beginner's Guide & Key Learnings",
@@ -133,6 +140,7 @@ const staticBlogs = [
         featured: false,
         source: "static"
     },
+
     {
         id: "static-10",
         title: "Best AI Tools for Students in 2026",
@@ -153,7 +161,7 @@ const staticBlogs = [
 // ALL BLOGS
 // ========================================
 
-let blogs = [...staticBlogs];
+let blogs = staticBlogs.slice();
 
 
 // ========================================
@@ -170,60 +178,44 @@ let bookmarkedIds = new Set();
 // DOM ELEMENTS
 // ========================================
 
-const blogGrid =
-    document.getElementById("blogGrid");
+const blogGrid = document.getElementById("blogGrid");
+const featuredContainer = document.getElementById("featuredContainer");
+const categoryContainer = document.getElementById("categoryContainer");
+const searchInput = document.getElementById("searchInput");
+const clearSearchBtn = document.getElementById("clearSearch");
+const sortSelect = document.getElementById("sortSelect");
+const articleCount = document.getElementById("articleCount");
+const themeToggleBtn = document.getElementById("themeToggle");
+const toast = document.getElementById("toast");
 
-const featuredContainer =
-    document.getElementById("featuredContainer");
 
-const categoryContainer =
-    document.getElementById("categoryContainer");
+// ========================================
+// SCRIPT START
+// ========================================
 
-const searchInput =
-    document.getElementById("searchInput");
-
-const clearSearchBtn =
-    document.getElementById("clearSearch");
-
-const sortSelect =
-    document.getElementById("sortSelect");
-
-const articleCount =
-    document.getElementById("articleCount");
-
-const themeToggleBtn =
-    document.getElementById("themeToggle");
-
-const toast =
-    document.getElementById("toast");
+console.log("🔥 BLOG SCRIPT STARTED");
+console.log("🔥 Firebase DB:", db);
 
 
 // ========================================
 // INITIALIZE
 // ========================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    async () => {
+document.addEventListener("DOMContentLoaded", function () {
 
-        console.log("🔥 DOM LOADED");
+    console.log("🔥 DOM LOADED");
 
-        initTheme();
+    initTheme();
 
-        setupEventListeners();
+    setupEventListeners();
 
-        renderCategories();
+    renderCategories();
 
-        renderBlogs();
+    renderBlogs();
 
-        await loadCMSBlogs();
+    loadCMSBlogs();
 
-        console.log(
-            "🔥 CMS LOAD FINISHED"
-        );
-
-    }
-);
+});
 
 
 // ========================================
@@ -241,7 +233,6 @@ function setupEventListeners() {
 
     }
 
-
     if (clearSearchBtn) {
 
         clearSearchBtn.addEventListener(
@@ -251,15 +242,13 @@ function setupEventListeners() {
 
     }
 
-
     if (sortSelect) {
 
         sortSelect.addEventListener(
             "change",
-            (event) => {
+            function (event) {
 
-                currentSort =
-                    event.target.value;
+                currentSort = event.target.value;
 
                 renderBlogs();
 
@@ -267,7 +256,6 @@ function setupEventListeners() {
         );
 
     }
-
 
     if (themeToggleBtn) {
 
@@ -282,27 +270,14 @@ function setupEventListeners() {
 
 
 // ========================================
-// LOAD CMS BLOGS FROM FIRESTORE
+// LOAD CMS BLOGS
 // ========================================
 
 async function loadCMSBlogs() {
 
-    console.log(
-        "🔥 loadCMSBlogs() STARTED"
-    );
-
+    console.log("🔥 loadCMSBlogs() STARTED");
 
     try {
-
-        // --------------------------------
-        // CHECK FIREBASE
-        // --------------------------------
-
-        console.log(
-            "🔥 Firebase DB:",
-            db
-        );
-
 
         console.log(
             "🔥 Firebase Project:",
@@ -311,31 +286,26 @@ async function loadCMSBlogs() {
 
 
         // --------------------------------
-        // BLOG COLLECTION
+        // FIRESTORE COLLECTION
         // --------------------------------
 
-        const blogsRef =
-            collection(
-                db,
-                "blogs"
-            );
-
+        const blogsRef = collection(
+            db,
+            "blogs"
+        );
 
         console.log(
-            "🔥 Blogs collection:",
-            blogsRef
+            "🔥 Blogs collection created"
         );
 
 
         // --------------------------------
-        // GET ALL BLOGS
+        // GET DOCUMENTS
         // --------------------------------
 
-        const snapshot =
-            await getDocs(
-                blogsRef
-            );
-
+        const snapshot = await getDocs(
+            blogsRef
+        );
 
         console.log(
             "🔥 Firestore total blogs:",
@@ -347,116 +317,124 @@ async function loadCMSBlogs() {
 
 
         // --------------------------------
-        // READ DOCUMENTS
+        // READ BLOG DOCUMENTS
         // --------------------------------
 
-        snapshot.forEach(
-            (blogDoc) => {
+        snapshot.forEach(function (blogDoc) {
 
-                const data =
-                    blogDoc.data();
+            const data = blogDoc.data();
 
 
-                console.log(
-                    "🔥 BLOG FOUND:",
-                    blogDoc.id,
-                    data
-                );
+            console.log(
+                "🔥 BLOG FOUND:",
+                blogDoc.id,
+                data
+            );
 
 
-                // --------------------------------
-                // CREATED DATE
-                // --------------------------------
+            // --------------------------------
+            // DATE
+            // --------------------------------
 
-                const createdDate =
-                    data.createdAt?.toDate
-                        ? data.createdAt.toDate()
-                        : new Date();
+            let createdDate;
 
+            if (
+                data.createdAt &&
+                typeof data.createdAt.toDate === "function"
+            ) {
 
-                // --------------------------------
-                // CREATE BLOG OBJECT
-                // --------------------------------
+                createdDate =
+                    data.createdAt.toDate();
 
-                cmsBlogs.push({
+            } else if (data.createdAt) {
 
-                    id:
-                        blogDoc.id,
+                createdDate =
+                    new Date(data.createdAt);
 
-                    title:
-                        data.title ||
-                        "Untitled Blog",
+            } else {
 
-                    description:
-                        data.excerpt ||
-                        "",
-
-                    slug:
-                        data.slug ||
-                        blogDoc.id,
-
-                    category:
-                        data.category ||
-                        "General",
-
-                    tags:
-                        Array.isArray(
-                            data.tags
-                        )
-                            ? data.tags
-                            : [],
-
-                    date:
-                        createdDate.toLocaleDateString(
-                            "en-US",
-                            {
-                                year:
-                                    "numeric",
-
-                                month:
-                                    "long",
-
-                                day:
-                                    "numeric"
-                            }
-                        ),
-
-                    timestamp:
-                        createdDate.getTime(),
-
-                    readTime:
-                        calculateReadTime(
-                            data.content ||
-                            ""
-                        ),
-
-                    icon:
-                        "📝",
-
-                    image:
-                        data.image ||
-                        "",
-
-                    featured:
-                        false,
-
-                    source:
-                        "cms"
-
-                });
+                createdDate =
+                    new Date();
 
             }
-        );
+
+
+            // --------------------------------
+            // BLOG OBJECT
+            // --------------------------------
+
+            const blog = {
+
+                id: blogDoc.id,
+
+                title:
+                    data.title ||
+                    "Untitled Blog",
+
+                description:
+                    data.excerpt ||
+                    "",
+
+                slug:
+                    data.slug ||
+                    blogDoc.id,
+
+                category:
+                    data.category ||
+                    "General",
+
+                tags:
+                    Array.isArray(data.tags)
+                        ? data.tags
+                        : [],
+
+                date:
+                    createdDate.toLocaleDateString(
+                        "en-US",
+                        {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric"
+                        }
+                    ),
+
+                timestamp:
+                    createdDate.getTime(),
+
+                readTime:
+                    calculateReadTime(
+                        data.content || ""
+                    ),
+
+                icon:
+                    "📝",
+
+                image:
+                    data.image ||
+                    "",
+
+                featured:
+                    false,
+
+                source:
+                    "cms"
+
+            };
+
+
+            cmsBlogs.push(blog);
+
+        });
 
 
         // --------------------------------
-        // COMBINE BLOGS
+        // COMBINE STATIC + CMS
         // --------------------------------
 
-        blogs = [
-            ...cmsBlogs,
-            ...staticBlogs
-        ];
+        blogs =
+            cmsBlogs.concat(
+                staticBlogs
+            );
 
 
         console.log(
@@ -472,7 +450,7 @@ async function loadCMSBlogs() {
 
 
         // --------------------------------
-        // RENDER
+        // RENDER UI
         // --------------------------------
 
         renderCategories();
@@ -485,14 +463,12 @@ async function loadCMSBlogs() {
             cmsBlogs.length
         );
 
-
     } catch (error) {
 
         console.error(
             "❌ FIRESTORE ERROR:",
             error
         );
-
 
         console.error(
             "❌ ERROR MESSAGE:",
@@ -501,9 +477,9 @@ async function loadCMSBlogs() {
 
 
         // Keep static blogs
-        blogs = [
-            ...staticBlogs
-        ];
+
+        blogs =
+            staticBlogs.slice();
 
 
         renderCategories();
@@ -532,10 +508,11 @@ function calculateReadTime(content) {
         content
             .trim()
             .split(/\s+/)
-            .filter(
-                word =>
-                    word.length > 0
-            );
+            .filter(function (word) {
+
+                return word.length > 0;
+
+            });
 
 
     const minutes =
@@ -547,13 +524,15 @@ function calculateReadTime(content) {
         );
 
 
-    return `${minutes} min read`;
+    // No template literal
+
+    return minutes + " min read";
 
 }
 
 
 // ========================================
-// GET BLOG TIMESTAMP
+// GET BLOG TIME
 // ========================================
 
 function getBlogTime(blog) {
@@ -566,9 +545,7 @@ function getBlogTime(blog) {
 
 
     const parsedDate =
-        new Date(
-            blog.date
-        );
+        new Date(blog.date);
 
 
     if (
@@ -600,9 +577,7 @@ function isNew(blog) {
     }
 
 
-    const now =
-        Date.now();
-
+    const now = Date.now();
 
     const diffDays =
         (
@@ -638,85 +613,83 @@ function renderCategories() {
     }
 
 
-    const categories = [
+    const categorySet =
+        new Set();
 
-        "All",
 
-        ...new Set(
-            blogs.map(
-                blog =>
-                    blog.category
-            )
-        )
+    blogs.forEach(function (blog) {
 
-    ];
+        categorySet.add(
+            blog.category
+        );
+
+    });
+
+
+    const categories =
+        ["All"].concat(
+            Array.from(categorySet)
+        );
 
 
     categoryContainer.innerHTML =
         categories
-            .map(
-                category => {
+            .map(function (category) {
 
-                    const count =
-                        category ===
-                        "All"
+                const count =
+                    category === "All"
+                        ? blogs.length
+                        : blogs.filter(
+                            function (blog) {
 
-                            ? blogs.length
-
-                            : blogs.filter(
-                                blog =>
+                                return (
                                     blog.category ===
                                     category
-                            ).length;
+                                );
+
+                            }
+                        ).length;
 
 
-                    return `
+                return (
+                    '<button ' +
+                    'class="pill ' +
+                    (
+                        category === currentCategory
+                            ? "active"
+                            : ""
+                    ) +
+                    '" ' +
+                    'data-category="' +
+                    escapeHTML(category) +
+                    '">' +
+                    escapeHTML(category) +
+                    " (" +
+                    count +
+                    ")" +
+                    "</button>"
+                );
 
-                        <button
-                            class="pill ${
-                                category ===
-                                currentCategory
-                                    ? "active"
-                                    : ""
-                            }"
-                            data-category="${escapeHTML(
-                                category
-                            )}"
-                        >
-
-                            ${escapeHTML(
-                                category
-                            )}
-
-                            (${count})
-
-                        </button>
-
-                    `;
-
-                }
-            )
+            })
             .join("");
 
 
     document
         .querySelectorAll(".pill")
-        .forEach(
-            button => {
+        .forEach(function (button) {
 
-                button.addEventListener(
-                    "click",
-                    () => {
+            button.addEventListener(
+                "click",
+                function () {
 
-                        selectCategory(
-                            button.dataset.category
-                        );
+                    selectCategory(
+                        button.dataset.category
+                    );
 
-                    }
-                );
+                }
+            );
 
-            }
-        );
+        });
 
 }
 
@@ -725,9 +698,7 @@ function renderCategories() {
 // SELECT CATEGORY
 // ========================================
 
-function selectCategory(
-    category
-) {
+function selectCategory(category) {
 
     currentCategory =
         category;
@@ -743,9 +714,7 @@ function selectCategory(
 // SEARCH
 // ========================================
 
-function handleSearch(
-    event
-) {
+function handleSearch(event) {
 
     searchQuery =
         event.target.value
@@ -776,14 +745,12 @@ function clearSearch() {
 
     if (searchInput) {
 
-        searchInput.value =
-            "";
+        searchInput.value = "";
 
     }
 
 
-    searchQuery =
-        "";
+    searchQuery = "";
 
 
     if (clearSearchBtn) {
@@ -803,14 +770,10 @@ function clearSearch() {
 // GET BLOG LINK
 // ========================================
 
-function getBlogLink(
-    blog
-) {
+function getBlogLink(blog) {
 
-    // Static HTML blog
     if (
-        blog.source ===
-        "static"
+        blog.source === "static"
     ) {
 
         return blog.slug;
@@ -818,10 +781,12 @@ function getBlogLink(
     }
 
 
-    // Firestore CMS blog
-    return `blog.html?slug=${encodeURIComponent(
-        blog.slug
-    )}`;
+    return (
+        "blog.html?slug=" +
+        encodeURIComponent(
+            blog.slug
+        )
+    );
 
 }
 
@@ -848,258 +813,246 @@ function renderBlogs() {
     // --------------------------------
 
     let filtered =
-        blogs.filter(
-            blog => {
+        blogs.filter(function (blog) {
 
-                const matchesCategory =
-                    currentCategory ===
-                        "All" ||
-                    blog.category ===
-                        currentCategory;
+            const matchesCategory =
+                currentCategory === "All" ||
+                blog.category ===
+                currentCategory;
 
 
-                const searchableText = [
+            const searchableText = [
 
-                    blog.title,
+                blog.title,
 
-                    blog.description,
+                blog.description,
 
-                    blog.category,
+                blog.category
 
-                    ...(blog.tags || [])
-
-                ]
-                    .join(" ")
-                    .toLowerCase();
-
-
-                const matchesSearch =
-                    searchableText.includes(
-                        searchQuery
-                    );
+            ]
+                .concat(
+                    blog.tags || []
+                )
+                .join(" ")
+                .toLowerCase();
 
 
-                return (
-                    matchesCategory &&
-                    matchesSearch
+            const matchesSearch =
+                searchableText.includes(
+                    searchQuery
                 );
 
-            }
-        );
+
+            return (
+                matchesCategory &&
+                matchesSearch
+            );
+
+        });
 
 
     // --------------------------------
     // SORT
     // --------------------------------
 
-    filtered.sort(
-        (a, b) => {
+    filtered.sort(function (a, b) {
 
-            if (
-                currentSort ===
-                "newest"
-            ) {
+        if (
+            currentSort === "newest"
+        ) {
 
-                return (
-                    getBlogTime(b) -
-                    getBlogTime(a)
-                );
-
-            }
-
-
-            if (
-                currentSort ===
-                "oldest"
-            ) {
-
-                return (
-                    getBlogTime(a) -
-                    getBlogTime(b)
-                );
-
-            }
-
-
-            if (
-                currentSort ===
-                "readTime"
-            ) {
-
-                return (
-                    parseInt(
-                        a.readTime
-                    ) -
-                    parseInt(
-                        b.readTime
-                    )
-                );
-
-            }
-
-
-            if (
-                currentSort ===
-                "az"
-            ) {
-
-                return a.title.localeCompare(
-                    b.title
-                );
-
-            }
-
-
-            return 0;
+            return (
+                getBlogTime(b) -
+                getBlogTime(a)
+            );
 
         }
-    );
+
+
+        if (
+            currentSort === "oldest"
+        ) {
+
+            return (
+                getBlogTime(a) -
+                getBlogTime(b)
+            );
+
+        }
+
+
+        if (
+            currentSort === "readTime"
+        ) {
+
+            return (
+                parseInt(a.readTime, 10) -
+                parseInt(b.readTime, 10)
+            );
+
+        }
+
+
+        if (
+            currentSort === "az"
+        ) {
+
+            return a.title.localeCompare(
+                b.title
+            );
+
+        }
+
+
+        return 0;
+
+    });
 
 
     // --------------------------------
-    // FEATURED
+    // FEATURED BLOG
     // --------------------------------
 
     let featured =
-        blogs.find(
-            blog =>
-                blog.featured
-        );
+        blogs.find(function (blog) {
+
+            return blog.featured;
+
+        });
 
 
-    if (!featured) {
+    if (!featured && blogs.length > 0) {
+
+        const sortedBlogs =
+            blogs.slice().sort(
+                function (a, b) {
+
+                    return (
+                        getBlogTime(b) -
+                        getBlogTime(a)
+                    );
+
+                }
+            );
+
 
         featured =
-            [...blogs].sort(
-                (a, b) =>
-                    getBlogTime(b) -
-                    getBlogTime(a)
-            )[0];
+            sortedBlogs[0];
 
     }
 
 
     // --------------------------------
-    // FEATURED RENDER
+    // FEATURED SECTION
     // --------------------------------
 
     if (featuredContainer) {
 
         if (
             featured &&
-            currentCategory ===
-                "All" &&
+            currentCategory === "All" &&
             !searchQuery
         ) {
 
-            const featuredImage =
-                featured.image
+            let featuredImage;
 
-                    ? `
 
-                        <img
-                            src="${escapeHTML(
-                                featured.image
-                            )}"
-                            alt="${escapeHTML(
+            if (featured.image) {
+
+                featuredImage =
+                    '<img ' +
+                    'src="' +
+                    escapeHTML(
+                        featured.image
+                    ) +
+                    '" ' +
+                    'alt="' +
+                    escapeHTML(
+                        featured.title
+                    ) +
+                    '" ' +
+                    'style="' +
+                    'width:100%;' +
+                    'height:100%;' +
+                    'object-fit:cover;' +
+                    'border-radius:inherit;' +
+                    '">';
+
+            } else {
+
+                featuredImage =
+                    featured.icon;
+
+            }
+
+
+            featuredContainer.innerHTML =
+                '<div class="featured-card">' +
+
+                    '<div class="featured-content">' +
+
+                        '<span class="featured-badge">' +
+                            'Featured Post' +
+                        '</span>' +
+
+                        '<h1>' +
+                            escapeHTML(
                                 featured.title
-                            )}"
-                            style="
-                                width:100%;
-                                height:100%;
-                                object-fit:cover;
-                                border-radius:inherit;
-                            "
-                        >
+                            ) +
+                        '</h1>' +
 
-                    `
-
-                    : featured.icon;
-
-
-            featuredContainer.innerHTML = `
-
-                <div class="featured-card">
-
-                    <div class="featured-content">
-
-                        <span class="featured-badge">
-                            Featured Post
-                        </span>
-
-
-                        <h1>
-                            ${escapeHTML(
-                                featured.title
-                            )}
-                        </h1>
-
-
-                        <p>
-                            ${escapeHTML(
+                        '<p>' +
+                            escapeHTML(
                                 featured.description
-                            )}
-                        </p>
+                            ) +
+                        '</p>' +
 
+                        '<div class="meta-info">' +
 
-                        <div class="meta-info">
-
-                            <span>
-
-                                <i class="fa-regular fa-calendar"></i>
-
-                                ${escapeHTML(
+                            '<span>' +
+                                '<i class="fa-regular fa-calendar"></i> ' +
+                                escapeHTML(
                                     featured.date
-                                )}
+                                ) +
+                            '</span>' +
 
-                            </span>
-
-
-                            <span>
-
-                                <i class="fa-regular fa-clock"></i>
-
-                                ${escapeHTML(
+                            '<span>' +
+                                '<i class="fa-regular fa-clock"></i> ' +
+                                escapeHTML(
                                     featured.readTime
-                                )}
+                                ) +
+                            '</span>' +
 
-                            </span>
+                        '</div>' +
 
-                        </div>
+                        '<br>' +
 
-
-                        <br>
-
-
-                        <a
-                            href="${getBlogLink(
+                        '<a ' +
+                        'href="' +
+                        escapeHTML(
+                            getBlogLink(
                                 featured
-                            )}"
-                            style="
-                                color:var(--accent);
-                                font-weight:bold;
-                                text-decoration:none;
-                            "
-                        >
+                            )
+                        ) +
+                        '" ' +
+                        'style="' +
+                        'color:var(--accent);' +
+                        'font-weight:bold;' +
+                        'text-decoration:none;' +
+                        '">' +
 
-                            Read Article
+                            'Read Article ' +
+                            '<i class="fa-solid fa-arrow-right"></i>' +
 
-                            <i class="fa-solid fa-arrow-right"></i>
+                        '</a>' +
 
-                        </a>
+                    '</div>' +
 
-                    </div>
+                    '<div class="featured-image-holder">' +
+                        featuredImage +
+                    '</div>' +
 
-
-                    <div class="featured-image-holder">
-
-                        ${featuredImage}
-
-                    </div>
-
-                </div>
-
-            `;
+                '</div>';
 
 
             featuredContainer.style.display =
@@ -1122,11 +1075,14 @@ function renderBlogs() {
     if (articleCount) {
 
         articleCount.textContent =
-            `Showing ${filtered.length} article${
+            "Showing " +
+            filtered.length +
+            " article" +
+            (
                 filtered.length !== 1
                     ? "s"
                     : ""
-            }`;
+            );
 
     }
 
@@ -1136,26 +1092,19 @@ function renderBlogs() {
     // --------------------------------
 
     if (
-        filtered.length ===
-        0
+        filtered.length === 0
     ) {
 
-        blogGrid.innerHTML = `
-
-            <div
-                style="
-                    grid-column:1/-1;
-                    text-align:center;
-                    padding:40px;
-                    color:var(--text-secondary);
-                "
-            >
-
-                No articles found matching your query.
-
-            </div>
-
-        `;
+        blogGrid.innerHTML =
+            '<div ' +
+            'style="' +
+            'grid-column:1/-1;' +
+            'text-align:center;' +
+            'padding:40px;' +
+            'color:var(--text-secondary);' +
+            '">' +
+                'No articles found matching your query.' +
+            '</div>';
 
         return;
 
@@ -1168,201 +1117,195 @@ function renderBlogs() {
 
     blogGrid.innerHTML =
         filtered
-            .map(
-                blog => {
-
-                    const imageHTML =
-                        blog.image
-
-                            ? `
-
-                                <img
-                                    src="${escapeHTML(
-                                        blog.image
-                                    )}"
-                                    alt="${escapeHTML(
-                                        blog.title
-                                    )}"
-                                    style="
-                                        width:100%;
-                                        height:180px;
-                                        object-fit:cover;
-                                        border-radius:12px;
-                                        margin-bottom:15px;
-                                    "
-                                >
-
-                            `
-
-                            : "";
-
-
-                    return `
-
-                        <article class="blog-card">
-
-                            <div>
-
-                                ${imageHTML}
-
-
-                                <div class="card-top">
-
-                                    <div>
-
-                                        <span class="category-badge">
-
-                                            ${escapeHTML(
-                                                blog.category
-                                            )}
-
-                                        </span>
-
-
-                                        ${
-                                            isNew(blog)
-
-                                                ? `
-
-                                                    <span class="new-tag">
-
-                                                        NEW
-
-                                                    </span>
-
-                                                `
-
-                                                : ""
-                                        }
-
-                                    </div>
-
-
-                                    <div class="card-actions">
-
-                                        <button
-                                            class="bookmark-btn"
-                                            data-id="${escapeHTML(
-                                                blog.id
-                                            )}"
-                                            title="Bookmark"
-                                        >
-
-                                            <i
-                                                class="${
-                                                    bookmarkedIds.has(
-                                                        blog.id
-                                                    )
-                                                        ? "fa-solid"
-                                                        : "fa-regular"
-                                                } fa-bookmark"
-                                            ></i>
-
-                                        </button>
-
-
-                                        <button
-                                            class="share-btn"
-                                            data-title="${escapeHTML(
-                                                blog.title
-                                            )}"
-                                            data-url="${getBlogLink(
-                                                blog
-                                            )}"
-                                            title="Share"
-                                        >
-
-                                            <i class="fa-solid fa-share-nodes"></i>
-
-                                        </button>
-
-                                    </div>
-
-                                </div>
-
-
-                                <h3>
-
-                                    ${
-                                        blog.image
-                                            ? ""
-                                            : blog.icon
-                                    }
-
-                                    ${escapeHTML(
-                                        blog.title
-                                    )}
-
-                                </h3>
-
-
-                                <p>
-
-                                    ${escapeHTML(
-                                        blog.description
-                                    )}
-
-                                </p>
-
-                            </div>
-
-
-                            <div class="card-footer">
-
-                                <div>
-
-                                    <span>
-
-                                        <i class="fa-regular fa-calendar"></i>
-
-                                        ${escapeHTML(
-                                            blog.date
-                                        )}
-
-                                    </span>
-
-
-                                    <span
-                                        style="margin-left:10px;"
-                                    >
-
-                                        <i class="fa-regular fa-clock"></i>
-
-                                        ${escapeHTML(
-                                            blog.readTime
-                                        )}
-
-                                    </span>
-
-                                </div>
-
-
-                                <a
-                                    href="${getBlogLink(
-                                        blog
-                                    )}"
-                                    style="
-                                        color:var(--accent);
-                                        font-weight:700;
-                                        text-decoration:none;
-                                        font-size:.9rem;
-                                    "
-                                >
-
-                                    Read
-
-                                    <i class="fa-solid fa-arrow-right"></i>
-
-                                </a>
-
-                            </div>
-
-                        </article>
-
-                    `;
+            .map(function (blog) {
+
+                let imageHTML = "";
+
+
+                if (blog.image) {
+
+                    imageHTML =
+                        '<img ' +
+                        'src="' +
+                        escapeHTML(
+                            blog.image
+                        ) +
+                        '" ' +
+                        'alt="' +
+                        escapeHTML(
+                            blog.title
+                        ) +
+                        '" ' +
+                        'style="' +
+                        'width:100%;' +
+                        'height:180px;' +
+                        'object-fit:cover;' +
+                        'border-radius:12px;' +
+                        'margin-bottom:15px;' +
+                        '">';
 
                 }
-            )
+
+
+                let newTag = "";
+
+
+                if (isNew(blog)) {
+
+                    newTag =
+                        '<span class="new-tag">' +
+                            'NEW' +
+                        '</span>';
+
+                }
+
+
+                let bookmarkClass =
+                    bookmarkedIds.has(
+                        blog.id
+                    )
+                        ? "fa-solid"
+                        : "fa-regular";
+
+
+                const blogLink =
+                    getBlogLink(blog);
+
+
+                return (
+
+                    '<article class="blog-card">' +
+
+                        '<div>' +
+
+                            imageHTML +
+
+                            '<div class="card-top">' +
+
+                                '<div>' +
+
+                                    '<span class="category-badge">' +
+                                        escapeHTML(
+                                            blog.category
+                                        ) +
+                                    '</span>' +
+
+                                    newTag +
+
+                                '</div>' +
+
+                                '<div class="card-actions">' +
+
+                                    '<button ' +
+                                    'class="bookmark-btn" ' +
+                                    'data-id="' +
+                                    escapeHTML(
+                                        blog.id
+                                    ) +
+                                    '" ' +
+                                    'title="Bookmark">' +
+
+                                        '<i class="' +
+                                            bookmarkClass +
+                                            ' fa-bookmark">' +
+                                        '</i>' +
+
+                                    '</button>' +
+
+                                    '<button ' +
+                                    'class="share-btn" ' +
+                                    'data-title="' +
+                                    escapeHTML(
+                                        blog.title
+                                    ) +
+                                    '" ' +
+                                    'data-url="' +
+                                    escapeHTML(
+                                        blogLink
+                                    ) +
+                                    '" ' +
+                                    'title="Share">' +
+
+                                        '<i class="fa-solid fa-share-nodes"></i>' +
+
+                                    '</button>' +
+
+                                '</div>' +
+
+                            '</div>' +
+
+                            '<h3>' +
+
+                                (
+                                    blog.image
+                                        ? ""
+                                        : blog.icon
+                                ) +
+
+                                " " +
+
+                                escapeHTML(
+                                    blog.title
+                                ) +
+
+                            '</h3>' +
+
+                            '<p>' +
+
+                                escapeHTML(
+                                    blog.description
+                                ) +
+
+                            '</p>' +
+
+                        '</div>' +
+
+                        '<div class="card-footer">' +
+
+                            '<div>' +
+
+                                '<span>' +
+                                    '<i class="fa-regular fa-calendar"></i> ' +
+                                    escapeHTML(
+                                        blog.date
+                                    ) +
+                                '</span>' +
+
+                                '<span style="margin-left:10px;">' +
+                                    '<i class="fa-regular fa-clock"></i> ' +
+                                    escapeHTML(
+                                        blog.readTime
+                                    ) +
+                                '</span>' +
+
+                            '</div>' +
+
+                            '<a ' +
+                            'href="' +
+                            escapeHTML(
+                                blogLink
+                            ) +
+                            '" ' +
+                            'style="' +
+                            'color:var(--accent);' +
+                            'font-weight:700;' +
+                            'text-decoration:none;' +
+                            'font-size:.9rem;' +
+                            '">' +
+
+                                'Read ' +
+
+                                '<i class="fa-solid fa-arrow-right"></i>' +
+
+                            '</a>' +
+
+                        '</div>' +
+
+                    '</article>'
+
+                );
+
+            })
             .join("");
 
 
@@ -1381,45 +1324,41 @@ function setupCardActions() {
         .querySelectorAll(
             ".bookmark-btn"
         )
-        .forEach(
-            button => {
+        .forEach(function (button) {
 
-                button.addEventListener(
-                    "click",
-                    () => {
+            button.addEventListener(
+                "click",
+                function () {
 
-                        toggleBookmark(
-                            button.dataset.id
-                        );
+                    toggleBookmark(
+                        button.dataset.id
+                    );
 
-                    }
-                );
+                }
+            );
 
-            }
-        );
+        });
 
 
     document
         .querySelectorAll(
             ".share-btn"
         )
-        .forEach(
-            button => {
+        .forEach(function (button) {
 
-                button.addEventListener(
-                    "click",
-                    () => {
+            button.addEventListener(
+                "click",
+                function () {
 
-                        shareArticle(
-                            button.dataset.title,
-                            button.dataset.url
-                        );
+                    shareArticle(
+                        button.dataset.title,
+                        button.dataset.url
+                    );
 
-                    }
-                );
+                }
+            );
 
-            }
-        );
+        });
 
 }
 
@@ -1428,23 +1367,17 @@ function setupCardActions() {
 // BOOKMARK
 // ========================================
 
-function toggleBookmark(
-    id
-) {
+function toggleBookmark(id) {
 
     if (
         bookmarkedIds.has(id)
     ) {
 
-        bookmarkedIds.delete(
-            id
-        );
+        bookmarkedIds.delete(id);
 
     } else {
 
-        bookmarkedIds.add(
-            id
-        );
+        bookmarkedIds.add(id);
 
     }
 
@@ -1484,10 +1417,9 @@ function shareArticle(
     if (toast) {
 
         toast.textContent =
-            `Link copied for "${title.substring(
-                0,
-                20
-            )}..." 🚀`;
+            "Link copied for \"" +
+            title.substring(0, 20) +
+            "...\" 🚀";
 
 
         toast.classList.add(
@@ -1496,7 +1428,7 @@ function shareArticle(
 
 
         setTimeout(
-            () => {
+            function () {
 
                 toast.classList.remove(
                     "show"
@@ -1550,8 +1482,7 @@ function toggleTheme() {
 
 
     const newTheme =
-        currentTheme ===
-        "dark"
+        currentTheme === "dark"
             ? "light"
             : "dark";
 
@@ -1590,23 +1521,26 @@ function updateThemeIcon(
     }
 
 
-    themeToggleBtn.innerHTML =
-        theme === "dark"
+    if (theme === "dark") {
 
-            ? '<i class="fa-solid fa-sun"></i>'
+        themeToggleBtn.innerHTML =
+            '<i class="fa-solid fa-sun"></i>';
 
-            : '<i class="fa-solid fa-moon"></i>';
+    } else {
+
+        themeToggleBtn.innerHTML =
+            '<i class="fa-solid fa-moon"></i>';
+
+    }
 
 }
 
 
 // ========================================
-// SECURITY
+// ESCAPE HTML
 // ========================================
 
-function escapeHTML(
-    value
-) {
+function escapeHTML(value) {
 
     const div =
         document.createElement(
@@ -1615,25 +1549,12 @@ function escapeHTML(
 
 
     div.textContent =
-        value ?? "";
+        value === null ||
+        value === undefined
+            ? ""
+            : String(value);
 
 
     return div.innerHTML;
 
 }
-```
-
-**यो पूरा code `Blogs/script.js` मा replace गरेर save/deploy गर।**
-
-त्यसपछि website मा **Ctrl + Shift + R** गर र F12 → Console मा हेर्नू।
-
-सबैभन्दा important output:
-
-```text
-🔥 Firebase Project: anillama-cms
-🔥 Firestore total blogs: 1
-🔥 BLOG FOUND: RDooKVaQk5xNgMH8zbss
-🔥 TOTAL BLOGS FOR UI: 11
-```
-
-यदि `Firestore total blogs: 1` आयो भने Firebase बाट तिम्रो **Mystic Aura blog successfully आएको** confirm हुन्छ। त्यसपछि पनि page मा `0` देखियो भने हामी `articleCount`/HTML element को समस्या सिधै fix गर्छौँ।
